@@ -2,15 +2,13 @@ package Dominio;
 
 public class Usuario {
 
-	private String nombre, correo, telefono, tipo, contrasena, ultConexion;
+	private String nombre, correo, telefono, contrasena;
 	
-	public Usuario(String nombre, String correo, String telefono, String tipo, String contrasena, String ultConexion) {
+	public Usuario(String nombre, String correo, String telefono, String contrasena) {
 		this.nombre = nombre;
 		this.correo = correo;
 		this.telefono = telefono;
-		this.tipo = tipo;
 		this.contrasena=contrasena;
-		this.ultConexion = ultConexion;
 	}
 	public Usuario() {
 		
@@ -48,20 +46,4 @@ public class Usuario {
 		this.telefono = telefono;
 	}
 
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
-	public String getUltConexion() {
-		return ultConexion;
-	}
-
-	public void setUltConexion(String ultConexion) {
-		this.ultConexion = ultConexion;
-	}
-	
 }

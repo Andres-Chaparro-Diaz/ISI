@@ -13,7 +13,7 @@ public class GestorUsuario {
 		JSONObject obj;
 		try {
 			JSONTokener tokener = new JSONTokener(
-					new FileReader(System.getProperty("user.dir") + "\\src\\Dominio\\usuarios.json"));
+					new FileReader(System.getProperty("user.dir") + "\\src\\recursos\\usuarios.json"));
 			obj = new JSONObject(tokener);
 			obj.getInt("numUsuarios");
 			obj.getJSONObject("usuarios");
@@ -40,8 +40,6 @@ public class GestorUsuario {
 					usuario.setCorreo(aux.getString("correo"));
 					usuario.setNombre(aux.getString("nombre"));
 					usuario.setTelefono(aux.getString("telefono"));
-					usuario.setTipo(aux.getString("tipo"));
-					usuario.setUltConexion(aux.getString("ultima_conexion"));
 					datosCorrectos = true;
 					break;
 				}

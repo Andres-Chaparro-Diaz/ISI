@@ -3,6 +3,12 @@ package Presentacion;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import org.json.JSONArray;
+
+import Dominio.GestorPlaylist;
+
 import javax.swing.JLabel;
 
 import java.awt.Image;
@@ -19,7 +25,8 @@ public class Playlist extends JPanel {
 	private JButton btnAtras;
 	private JLabel lblLogo;
 	private JLabel lblFondo;
-
+	private Object[][] canciones;
+	private JSONArray jsonPlay;
 	/**
 	 * Create the panel.
 	 */
@@ -30,7 +37,8 @@ public class Playlist extends JPanel {
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(22, 172, 801, 366);
 		add(scrollPane);
-		
+		jsonPlay = GestorPlaylist.leerPlaylist();
+		canciones = GestorPlaylist.devolverCanciones(jsonPlay);
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		
@@ -68,5 +76,18 @@ public class Playlist extends JPanel {
 			e1.printStackTrace();
 		}
 		add(lblFondo);
+		table.setModel(new DefaultTableModel(
+				canciones,
+				new String[] {
+					"ID", "Titulo", "Artista", "Genero", "Anio", "BPM", "Energia", "Danzabilidad", "dB","Valor","Duracion","Popularidad"
+				}
+			) {
+				boolean[] columnEditables = new boolean[] {
+					false, false, false, false, false, false, false, false, false, false, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
 	}
 }

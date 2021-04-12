@@ -139,7 +139,9 @@ public class Login {
 				if (usuario == null) {
 					JOptionPane.showMessageDialog(null, "Datos incorrectos.");
 				} else {
-					JOptionPane.showMessageDialog(null, "Ha iniciado sesion.\n Bienvenido\n" + usuario.getNombre());
+					Playlist playlist = new Playlist();
+					frameApp.getContentPane().setVisible(false);
+					playlist.setVisible(true);
 				}
 			} else {
 				JOptionPane.showMessageDialog(null, "Debe rellenar los campos anteriores.");
