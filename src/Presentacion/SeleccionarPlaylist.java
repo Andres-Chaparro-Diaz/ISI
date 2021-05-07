@@ -75,14 +75,14 @@ public class SeleccionarPlaylist extends JPanel {
 		btnSeleccionarCanciones.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		add(btnSeleccionarCanciones);
 
-		lblTipoDia = new JLabel("Tipo de día ");
+		lblTipoDia = new JLabel("Tipo de dia");
 		lblTipoDia.setBounds(151, 331, 195, 40);
 		lblTipoDia.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		lblTipoDia.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(lblTipoDia);
 
-		lblEnlacePlaylist = new JLabel("Enlace de la playlist ");
-		lblEnlacePlaylist.setBounds(40, 393, 306, 40);
+		lblEnlacePlaylist = new JLabel("Enlace playlist");
+		lblEnlacePlaylist.setBounds(151, 393, 195, 40);
 		lblEnlacePlaylist.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		lblEnlacePlaylist.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(lblEnlacePlaylist);

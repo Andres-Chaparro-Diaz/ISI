@@ -80,7 +80,7 @@ public class ResultadoPlaylist extends JPanel {
 		btnExpPlaylist.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		add(btnExpPlaylist);
 
-		canciones = GestorPlaylist.recomendarPlaylist(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main"),GestorPlaylist.leerPlaylist());
+		//canciones = GestorPlaylist.recomendarPlaylist(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main"),GestorPlaylist.leerPlaylist());
 		canciones = GestorPlaylist.devolverCanciones();
 		table.setModel(new DefaultTableModel(canciones, new String[] { "ID", "Titulo", "Artista", "Genero", "Anio",
 				"BPM", "Energia", "Danzabilidad", "dB", "Valor", "Duracion", "Popularidad" }) {
