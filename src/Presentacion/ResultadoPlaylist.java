@@ -7,6 +7,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import Dominio.GestorPlaylist;
 import Dominio.Usuario;
@@ -33,26 +34,28 @@ public class ResultadoPlaylist extends JPanel {
 	private JLabel lblFondo;
 	private Object[][] canciones;
 	private Principal principal;
-
+	private JLabel lblTipoDia;
+	JSONObject JSONTiempo;
 	/**
 	 * Create the panel.
 	 * 
 	 * @throws JSONException
 	 */
-	public ResultadoPlaylist(Principal principal) throws JSONException{
+	public ResultadoPlaylist(Principal principal, JSONObject JSONTiempo) throws JSONException{
 		this.principal = principal;
+		this.JSONTiempo = JSONTiempo;
 		setBounds(0, 0, 900, 650);
 		setLayout(null);
 
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(49, 172, 801, 366);
+		scrollPane.setBounds(20, 214, 840, 324);
 		add(scrollPane);
 
 		table = new JTable();
 		scrollPane.setViewportView(table);
 
 		lblLogo = new JLabel("");
-		lblLogo.setBounds(700, 11, 150, 150);
+		lblLogo.setBounds(710, 53, 150, 150);
 		try {
 			Image imagenOriginal = ImageIO.read(Principal.class.getResource("/recursos/moodapp.png"));
 			Image imagenEscalada = imagenOriginal.getScaledInstance(lblLogo.getWidth(), lblLogo.getHeight(),
@@ -66,30 +69,18 @@ public class ResultadoPlaylist extends JPanel {
 
 		btnAtras = new JButton("Atras");
 		btnAtras.addActionListener(new BtnAtrasActionListener());
-		btnAtras.setBounds(49, 559, 128, 33);
+		btnAtras.setBounds(20, 559, 128, 33);
 		btnAtras.setBorder(new LineBorder(Color.BLACK, 1, true));
 		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		add(btnAtras);
 
 		btnExpPlaylist = new JButton("Exportar Playlist");
-		btnExpPlaylist.setBounds(722, 559, 128, 33);
+		btnExpPlaylist.setBounds(732, 559, 128, 33);
 		btnExpPlaylist.setBorder(new LineBorder(Color.BLACK, 1, true));
 		btnExpPlaylist.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		add(btnExpPlaylist);
 
-		lblFondo = new JLabel("");
-		lblFondo.setBounds(0, 0, 900, 650);
-		try {
-			Image imagenOriginal = ImageIO.read(Principal.class.getResource("/recursos/Fondo.jpg"));
-			Image imagenEscalada = imagenOriginal.getScaledInstance(lblFondo.getWidth(), lblFondo.getHeight(),
-					java.awt.Image.SCALE_SMOOTH);
-			ImageIcon iconoLabel = new ImageIcon(imagenEscalada);
-			lblFondo.setIcon(iconoLabel);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		add(lblFondo);
-
+		//canciones = GestorPlaylist.recomendarPlaylist(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main"),GestorPlaylist.leerPlaylist());
 		canciones = GestorPlaylist.devolverCanciones();
 		table.setModel(new DefaultTableModel(canciones, new String[] { "ID", "Titulo", "Artista", "Genero", "Anio",
 				"BPM", "Energia", "Danzabilidad", "dB", "Valor", "Duracion", "Popularidad" }) {
@@ -100,6 +91,25 @@ public class ResultadoPlaylist extends JPanel {
 				return columnEditables[column];
 			}
 		});
+		
+		lblTipoDia = new JLabel("New label");
+		lblTipoDia.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblTipoDia.setBounds(20, 157, 306, 44);
+		add(lblTipoDia);
+		
+		lblFondo = new JLabel("");
+		lblFondo.setBounds(0, 0, 900, 650);
+		try {
+			Image imagenOriginal = ImageIO.read(Principal.class.getResource("/recursos/Fondo.jpg"));
+			Image imagenEscalada = imagenOriginal.getScaledInstance(lblFondo.getWidth(), lblFondo.getHeight(),
+					java.awt.Image.SCALE_SMOOTH);
+			ImageIcon iconoLabel = new ImageIcon(imagenEscalada);
+			lblFondo.setIcon(iconoLabel);
+			add(lblFondo);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
 		table.getColumnModel().getColumn(0).setPreferredWidth(10);
 		table.getColumnModel().getColumn(1).setPreferredWidth(110);
 		table.getColumnModel().getColumn(2).setPreferredWidth(50);
@@ -119,5 +129,9 @@ public class ResultadoPlaylist extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			principal.atrasPulsado();
 		}
+	}
+	
+	public void setTipoDia(double temp, String tipoDia) {
+		lblTipoDia.setText("Temperatura: "+temp+" ºC, Tipo de dia: "+tipoDia);
 	}
 }

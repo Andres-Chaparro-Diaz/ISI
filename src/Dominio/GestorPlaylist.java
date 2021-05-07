@@ -8,6 +8,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.json.JSONException;
@@ -65,7 +66,6 @@ public class GestorPlaylist {
 
 		try {
 			HttpResponse<String> respuesta = client.send(request, BodyHandlers.ofString());
-			System.out.println(respuesta.body());
 			JSONTokener tokener = new JSONTokener(respuesta.body());
 			return new JSONObject(tokener);
 		} catch (IOException | InterruptedException e) {
@@ -75,100 +75,105 @@ public class GestorPlaylist {
 		}
 	}
 	
-	public JSONObject recomendarPlaylist(String tiempoActual, JSONObject JSONPlaylist) {
-		Iterator<String> keys =  JSONPlaylist.keys();
-		JSONObject JSONRecomendados = new JSONObject();
+	public Object[][] recomendarPlaylist(String tiempoActual, JSONObject JSONPlaylist) {
+		Iterator<String> keys =  JSONPlaylist.keys();		
+		ArrayList<Object[]> lista = new ArrayList<Object[]>();
+		
 		while(keys.hasNext()) {
 			String id = keys.next();
 			int energy = JSONPlaylist.getJSONObject("canciones").getJSONObject(id).getInt("nrgy");
 			int db = JSONPlaylist.getJSONObject("canciones").getJSONObject(id).getInt("dB");
-			boolean triste = triste(energy,db);
-			switch (tiempoActual) {
-			case "Thunderstorm":
-				if(triste) {
-					
-				}
-				break;
-			case "Rain":
-				if(triste) {
-					
-				}
-				break;
-			case "Snow":
-				if(triste) {
-					
-				}
-				break;
-			case "Mist":
-				if(triste) {
-					
-				}
-				break;
-			case "Smoke":
-				if(triste) {
-					
-				}
-				break;
-			case "Haze":
-				if(triste) {
-					
-				}
-				break;
-			case "Dust":
-				if(triste) {
-					
-				}
-				break;
-			case "Fog":
-				if(triste) {
-					
-				}
-				break;
-			case "Sand":
-				if(triste) {
-					
-				}
-				break;
-			case "Drizzle":
-				if(triste) {
-					
-				}
-				break;
-			case "Ash":
-				if(triste) {
-					
-				}
-				break;
-			case "Squall":
-				if(triste) {
-					
-				}
-				break;
-			case "Tornado":
-				if(triste) {
-					
-				}
-				break;
-			case "Clear":
-				if(triste) {
-					
-				}
-				break;
-			case "Clouds":
-				if(triste) {
-					
-				}
-				break;
+			int dance = JSONPlaylist.getJSONObject("canciones").getJSONObject(id).getInt("dnce");
+			int val = JSONPlaylist.getJSONObject("canciones").getJSONObject(id).getInt("val");
+			String title = JSONPlaylist.getJSONObject("canciones").getJSONObject(id).getString("title");
+			String artist = JSONPlaylist.getJSONObject("canciones").getJSONObject(id).getString("artist");
+			String genre = JSONPlaylist.getJSONObject("canciones").getJSONObject(id).getString("top genre");
+            String topGenre = JSONPlaylist.getJSONObject("canciones").getJSONObject(String.valueOf(id)).getString("top genre");
+            int year = JSONPlaylist.getJSONObject("canciones").getJSONObject(String.valueOf(id)).getInt("year");
+            int bpm = JSONPlaylist.getJSONObject("canciones").getJSONObject(String.valueOf(id)).getInt("bpm");
+            int dur = JSONPlaylist.getJSONObject("canciones").getJSONObject(String.valueOf(id)).getInt("dur");
+            int pop = JSONPlaylist.getJSONObject("canciones").getJSONObject(String.valueOf(id)).getInt("pop");
 
+            
+			boolean sad = sad(energy,db);
+			boolean danceable = danceable(dance);
+			boolean happy = happy(val, energy);
+			boolean amped = amped(energy);
+			boolean anger = anger(energy,db,val);
+			boolean soft = soft(energy,db,val);
+			int i = 0;
+			
+			if((tiempoActual.equals("Rain") || tiempoActual.equals("Mist") || tiempoActual.equals("Drizzle")|| tiempoActual.equals("Smoke") || tiempoActual.equals("Fog")|| tiempoActual.equals("Squall") || tiempoActual.equals("Haze")) && sad) {
+	            lista.add(new Object[]{i++,title,artist,topGenre,String.valueOf(year),String.valueOf(bpm),String.valueOf(energy),
+	                    String.valueOf(dance),String.valueOf(db),String.valueOf(val),String.valueOf(dur),
+	                    String.valueOf(pop)});
 			}
-
+			
+			if((tiempoActual.equals("Dust")  || tiempoActual.equals("Sand")  ||  tiempoActual.equals("Ash")) && anger ) {
+	            lista.add(new Object[]{i++,title,artist,topGenre,String.valueOf(year),String.valueOf(bpm),String.valueOf(energy),
+	                    String.valueOf(dance),String.valueOf(db),String.valueOf(val),String.valueOf(dur),
+	                    String.valueOf(pop)});
+			}
+			
+			if(tiempoActual.equals("Clear")  && happy) {
+	            lista.add(new Object[]{i++,title,artist,topGenre,String.valueOf(year),String.valueOf(bpm),String.valueOf(energy),
+	                    String.valueOf(dance),String.valueOf(db),String.valueOf(val),String.valueOf(dur),
+	                    String.valueOf(pop)});
+			}
+			
+			if((tiempoActual.equals("Thunderstorm") || tiempoActual.equals("Tornado")) && amped) {
+	            lista.add(new Object[]{i++,title,artist,topGenre,String.valueOf(year),String.valueOf(bpm),String.valueOf(energy),
+	                    String.valueOf(dance),String.valueOf(db),String.valueOf(val),String.valueOf(dur),
+	                    String.valueOf(pop)});
+			}
+			
+			if(tiempoActual.equals("Clouds") && soft) {
+	            lista.add(new Object[]{i++,title,artist,topGenre,String.valueOf(year),String.valueOf(bpm),String.valueOf(energy),
+	                    String.valueOf(dance),String.valueOf(db),String.valueOf(val),String.valueOf(dur),
+	                    String.valueOf(pop)});
+			}
+			
+			if(tiempoActual.equals("Snow") && danceable) {
+	            lista.add(new Object[]{i++,title,artist,topGenre,String.valueOf(year),String.valueOf(bpm),String.valueOf(energy),
+	                    String.valueOf(dance),String.valueOf(db),String.valueOf(val),String.valueOf(dur),
+	                    String.valueOf(pop)});
+			}
 		}
-		return JSONRecomendados;
+		Object[][] canciones = new Object[lista.size()][12];
+		for(int i = 0;i<lista.size();i++) {
+			canciones[i]=lista.get(i);
+		}
+		return canciones;
 
 	}
 	
-	public boolean triste(int energy, int db) {
-		if(energy <65 && db <=-5) return true;
+	public boolean sad(int val, int energy) {
+		if(val <20 && energy <20) return true;
+		else return false;
+	}
+	
+	public boolean happy(int val, int energy) {
+		if(val >80 && energy >80) return true;
+		else return false;
+	}
+	
+	public boolean danceable(int dance) {
+		if(dance >80) return true;
+		else return false;
+	}
+	
+	public boolean amped(int energy) {
+		if(energy >80) return true;
+		else return false;
+	}
+	
+	public boolean anger (int energy, int db, int val) {
+		if(energy >80 && db >= -5 && val < 20) return true;
+		else return false;
+	}
+	
+	public boolean soft (int energy, int db, int val) {
+		if(energy <50 && val <20 && db <-5) return true;
 		else return false;
 	}
 }

@@ -49,8 +49,9 @@ public class SeleccionarPlaylist extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public SeleccionarPlaylist(Principal principal) {
+	public SeleccionarPlaylist(Principal principal, JSONObject JSONTiempo) {
 		this.principal = principal;
+		this.JSONTiempo = JSONTiempo;
 		setLayout(null);
 		setBounds(0, 0, 900, 650);
 		
@@ -120,14 +121,8 @@ public class SeleccionarPlaylist extends JPanel {
 			e1.printStackTrace();
 		}
 		add(lblFondo);
-		JSONPlaylist = GestorPlaylist.leerPlaylist();
-		JSONTiempo = GestorPlaylist.leerAPI("Ciudad%20Real",APIkey);
-		System.out.println(JSONTiempo.getJSONArray("weather").getJSONObject(0).get("description"));
-		System.out.println(JSONTiempo.getJSONArray("weather").getJSONObject(0).get("main"));
-		System.out.println(JSONTiempo.getJSONObject("main").getDouble("temp")-273);
-
-
-
+		JSONPlaylist = GestorPlaylist.leerPlaylist(); 
+		txtTipoDia.setText(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main"));
 	}
 
 	public void setUsuario(Usuario u) throws JSONException {
@@ -142,7 +137,7 @@ public class SeleccionarPlaylist extends JPanel {
 	private class BtnSeleccionarCancionesActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if(!txtEnlacePlaylist.getText().isEmpty())
-				principal.seleccionarCancionesPulsado();
+				principal.seleccionarCancionesPulsado(JSONTiempo.getJSONObject("main").getDouble("temp")-273,JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main"));
 			else
 				JOptionPane.showMessageDialog(null, "Indique la playlist.");
 		}
