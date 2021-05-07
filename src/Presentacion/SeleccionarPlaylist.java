@@ -140,7 +140,7 @@ public class SeleccionarPlaylist extends JPanel {
 	public void leerAPI(String ciudad) {
 		String city = "?q="+ciudad;
 		String key = "&appid="+APIkey;
-		String URL = "api.openweathermap.org/data/2.5/weather"+city+key;
+		String URL = "http://api.openweathermap.org/data/2.5/weather"+city+key;
 		HttpClient client = HttpClient.newHttpClient();
 		HttpRequest request = HttpRequest.newBuilder().uri(URI.create("URL:"+URL)).GET().build();
 		
