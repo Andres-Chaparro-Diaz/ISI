@@ -4,10 +4,13 @@ import javax.swing.JPanel;
 import java.net.http.*;
 import java.net.http.HttpResponse.BodyHandler;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.util.Iterator;
 import java.net.URI;
 
 import org.json.JSONException;
+import org.json.*;
 
+import Dominio.GestorPlaylist;
 import Dominio.Usuario;
 
 
@@ -41,6 +44,8 @@ public class SeleccionarPlaylist extends JPanel {
 	private String APIkey = "2f3043f9f6a0d2c127fe9656e1b335c2";
 	private JButton btnSeleccionarCanciones;
 	private Principal principal;
+	JSONObject JSONTiempo;
+	JSONObject JSONPlaylist;
 	/**
 	 * Create the panel.
 	 */
@@ -115,7 +120,13 @@ public class SeleccionarPlaylist extends JPanel {
 			e1.printStackTrace();
 		}
 		add(lblFondo);
-		leerAPI("Madrid");
+		JSONPlaylist = GestorPlaylist.leerPlaylist();
+		JSONTiempo = GestorPlaylist.leerAPI("Ciudad%20Real",APIkey);
+		System.out.println(JSONTiempo.getJSONArray("weather").getJSONObject(0).get("description"));
+		System.out.println(JSONTiempo.getJSONArray("weather").getJSONObject(0).get("main"));
+		System.out.println(JSONTiempo.getJSONObject("main").getDouble("temp")-273);
+
+
 
 	}
 
@@ -137,20 +148,5 @@ public class SeleccionarPlaylist extends JPanel {
 		}
 	}
 	
-	public void leerAPI(String ciudad) {
-		String city = "?q="+ciudad;
-		String key = "&appid="+APIkey;
-		String URL = "http://api.openweathermap.org/data/2.5/weather"+city+key;
-		HttpClient client = HttpClient.newHttpClient();
-		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(URL)).GET().build();
-		
 
-		try {
-			HttpResponse<String> respuesta = client.send(request, BodyHandlers.ofString());
-			System.out.println(respuesta.body());
-		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }

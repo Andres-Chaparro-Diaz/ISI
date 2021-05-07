@@ -2,6 +2,13 @@ package Dominio;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
+import java.util.Iterator;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,6 +54,122 @@ public class GestorPlaylist {
 			return null;
 		}
 		return obj;
+	}
+	
+	public static JSONObject leerAPI(String ciudad, String APIkey) {
+		String city = "?q="+ciudad;
+		String key = "&appid="+APIkey;
+		String URL = "http://api.openweathermap.org/data/2.5/weather"+city+key;
+		HttpClient client = HttpClient.newHttpClient();
+		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(URL)).GET().build();
+
+		try {
+			HttpResponse<String> respuesta = client.send(request, BodyHandlers.ofString());
+			System.out.println(respuesta.body());
+			JSONTokener tokener = new JSONTokener(respuesta.body());
+			return new JSONObject(tokener);
+		} catch (IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public JSONObject recomendarPlaylist(String tiempoActual, JSONObject JSONPlaylist) {
+		Iterator<String> keys =  JSONPlaylist.keys();
+		JSONObject JSONRecomendados = new JSONObject();
+		while(keys.hasNext()) {
+			String id = keys.next();
+			int energy = JSONPlaylist.getJSONObject("canciones").getJSONObject(id).getInt("nrgy");
+			int db = JSONPlaylist.getJSONObject("canciones").getJSONObject(id).getInt("dB");
+			boolean triste = triste(energy,db);
+			switch (tiempoActual) {
+			case "Thunderstorm":
+				if(triste) {
+					
+				}
+				break;
+			case "Rain":
+				if(triste) {
+					
+				}
+				break;
+			case "Snow":
+				if(triste) {
+					
+				}
+				break;
+			case "Mist":
+				if(triste) {
+					
+				}
+				break;
+			case "Smoke":
+				if(triste) {
+					
+				}
+				break;
+			case "Haze":
+				if(triste) {
+					
+				}
+				break;
+			case "Dust":
+				if(triste) {
+					
+				}
+				break;
+			case "Fog":
+				if(triste) {
+					
+				}
+				break;
+			case "Sand":
+				if(triste) {
+					
+				}
+				break;
+			case "Drizzle":
+				if(triste) {
+					
+				}
+				break;
+			case "Ash":
+				if(triste) {
+					
+				}
+				break;
+			case "Squall":
+				if(triste) {
+					
+				}
+				break;
+			case "Tornado":
+				if(triste) {
+					
+				}
+				break;
+			case "Clear":
+				if(triste) {
+					
+				}
+				break;
+			case "Clouds":
+				if(triste) {
+					
+				}
+				break;
+
+			}
+
+		}
+		return JSONRecomendados;
+
+	}
+	
+	public boolean triste(int energy, int db) {
+		if(energy <65 && db <=-5) return true;
+		else return false;
 	}
 }
 
