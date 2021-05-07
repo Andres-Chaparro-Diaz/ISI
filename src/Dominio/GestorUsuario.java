@@ -27,7 +27,7 @@ public class GestorUsuario {
 		return obj;
 	}
 	
-	public static Usuario comprobarUsuario(String usuarioCompr, String contrasenaCompr) {
+	public static Usuario comprobarUsuario(String usuarioCompr, String contrasenaCompr) throws JSONException {
 		Usuario usuario = new Usuario();
 		boolean datosCorrectos = false;
 		JSONObject fichero = leerUsuarios();
