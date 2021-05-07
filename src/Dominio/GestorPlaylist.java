@@ -75,8 +75,8 @@ public class GestorPlaylist {
 		}
 	}
 	
-	public Object[][] recomendarPlaylist(String tiempoActual, JSONObject JSONPlaylist) {
-		Iterator<String> keys =  JSONPlaylist.keys();		
+	public static Object[][] recomendarPlaylist(String tiempoActual, JSONObject JSONPlaylist) {
+		Iterator<String> keys =  JSONPlaylist.getJSONObject("canciones").keys();		
 		ArrayList<Object[]> lista = new ArrayList<Object[]>();
 		
 		while(keys.hasNext()) {
@@ -147,32 +147,32 @@ public class GestorPlaylist {
 
 	}
 	
-	public boolean sad(int val, int energy) {
+	public static boolean sad(int val, int energy) {
 		if(val <20 && energy <20) return true;
 		else return false;
 	}
 	
-	public boolean happy(int val, int energy) {
+	public static boolean happy(int val, int energy) {
 		if(val >80 && energy >80) return true;
 		else return false;
 	}
 	
-	public boolean danceable(int dance) {
+	public static boolean danceable(int dance) {
 		if(dance >80) return true;
 		else return false;
 	}
 	
-	public boolean amped(int energy) {
+	public static boolean amped(int energy) {
 		if(energy >80) return true;
 		else return false;
 	}
 	
-	public boolean anger (int energy, int db, int val) {
+	public static boolean anger (int energy, int db, int val) {
 		if(energy >80 && db >= -5 && val < 20) return true;
 		else return false;
 	}
 	
-	public boolean soft (int energy, int db, int val) {
+	public static boolean soft (int energy, int db, int val) {
 		if(energy <50 && val <20 && db <-5) return true;
 		else return false;
 	}
