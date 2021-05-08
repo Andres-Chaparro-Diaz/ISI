@@ -135,6 +135,6 @@ public class ResultadoPlaylist extends JPanel {
 	
 	public void setTipoDia(double temp, String tipoDia) {
 		lblTipoDia.setText("Tipo de dia: "+tipoDia);
-		lblTemperatura.setText("Temperatura: "+String.format("%.1f", temp)+" ºC");
+		lblTemperatura.setText("Temperatura: "+String.format("%.2f", temp)+" ºC");
 	}
 }

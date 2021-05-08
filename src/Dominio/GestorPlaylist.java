@@ -55,7 +55,7 @@ public class GestorPlaylist {
 			if (tiempoActual.equals("Rain") || tiempoActual.equals("Mist") || tiempoActual.equals("Drizzle")
 					|| tiempoActual.equals("Smoke") || tiempoActual.equals("Fog") || tiempoActual.equals("Squall")
 					|| tiempoActual.equals("Haze")) {
-				if (sad(val, nrgy, dnce))
+				if (sad(val, nrgy))
 					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(bpm),
 							String.valueOf(nrgy), String.valueOf(dnce), String.valueOf(dB), String.valueOf(val),
 							String.valueOf(dur)});
@@ -121,15 +121,8 @@ public class GestorPlaylist {
 		}
 	}
 
-	public static boolean sad(int val, int energy, int dnce) {
-		if (val < 20 && energy < 20 && dnce < 85)
-			return true;
-		else
-			return false;
-	}
-	
-	public static boolean anger(int energy, int db, int val) {
-		if (energy > 80 && db >= -5 && val < 20)
+	public static boolean sad(int val, int energy) {
+		if (val < 20 && energy < 20)
 			return true;
 		else
 			return false;
@@ -137,20 +130,6 @@ public class GestorPlaylist {
 
 	public static boolean happy(int val, int energy) {
 		if (val > 80 && energy > 80)
-			return true;
-		else
-			return false;
-	}
-	
-	public static boolean amped(int energy) {
-		if (energy > 80)
-			return true;
-		else
-			return false;
-	}
-
-	public static boolean soft(int energy, int db, int val) {
-		if (energy < 50 && val < 20 && db < -5)
 			return true;
 		else
 			return false;
@@ -163,5 +142,25 @@ public class GestorPlaylist {
 			return false;
 	}
 
+	public static boolean amped(int energy) {
+		if (energy > 80)
+			return true;
+		else
+			return false;
+	}
+
+	public static boolean anger(int energy, int db, int val) {
+		if (energy > 80 && db >= -5 && val < 20)
+			return true;
+		else
+			return false;
+	}
+
+	public static boolean soft(int energy, int db, int val) {
+		if (energy < 50 && val < 20 && db < -5)
+			return true;
+		else
+			return false;
+	}
 }
 
