@@ -36,6 +36,7 @@ public class ResultadoPlaylist extends JPanel {
 	private Principal principal;
 	private JLabel lblTipoDia;
 	JSONObject JSONTiempo;
+	private JLabel lblTemperatura;
 	/**
 	 * Create the panel.
 	 * 
@@ -48,14 +49,14 @@ public class ResultadoPlaylist extends JPanel {
 		setLayout(null);
 
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(20, 214, 840, 324);
+		scrollPane.setBounds(24, 161, 840, 324);
 		add(scrollPane);
 
 		table = new JTable();
 		scrollPane.setViewportView(table);
 
 		lblLogo = new JLabel("");
-		lblLogo.setBounds(710, 53, 150, 150);
+		lblLogo.setBounds(714, 0, 150, 150);
 		try {
 			Image imagenOriginal = ImageIO.read(Principal.class.getResource("/recursos/moodapp.png"));
 			Image imagenEscalada = imagenOriginal.getScaledInstance(lblLogo.getWidth(), lblLogo.getHeight(),
@@ -69,34 +70,49 @@ public class ResultadoPlaylist extends JPanel {
 
 		btnAtras = new JButton("Atras");
 		btnAtras.addActionListener(new BtnAtrasActionListener());
-		btnAtras.setBounds(20, 559, 128, 33);
+		btnAtras.setBounds(24, 506, 128, 33);
 		btnAtras.setBorder(new LineBorder(Color.BLACK, 1, true));
-		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnAtras.setFont(new Font("Tahoma", Font.BOLD, 13));
 		add(btnAtras);
 
 		btnExpPlaylist = new JButton("Exportar Playlist");
-		btnExpPlaylist.setBounds(732, 559, 128, 33);
+		btnExpPlaylist.setBounds(736, 506, 128, 33);
 		btnExpPlaylist.setBorder(new LineBorder(Color.BLACK, 1, true));
-		btnExpPlaylist.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnExpPlaylist.setFont(new Font("Tahoma", Font.BOLD, 13));
 		add(btnExpPlaylist);
 
-		//canciones = GestorPlaylist.recomendarPlaylist(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main"),GestorPlaylist.leerPlaylist());
-		canciones = GestorPlaylist.devolverCanciones();
-		table.setModel(new DefaultTableModel(canciones, new String[] { "ID", "Titulo", "Artista", "Genero", "Anio",
-				"BPM", "Energia", "Danzabilidad", "dB", "Valor", "Duracion", "Popularidad" }) {
+		canciones = GestorPlaylist.devolverCanciones(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main"));
+		table.setModel(new DefaultTableModel(canciones, new String[] { "ID", "Titulo", "Artista", "Genero", "Año",
+				"BPM", "Energia", "Danzabilidad", "dB", "Valor", "Duracion"}) {
 			boolean[] columnEditables = new boolean[] { false, false, false, false, false, false, false, false, false,
-					false, false, false };
+					false, false};
 
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
 		});
+		table.getColumnModel().getColumn(0).setPreferredWidth(5);
+		table.getColumnModel().getColumn(1).setPreferredWidth(120);
+		table.getColumnModel().getColumn(2).setPreferredWidth(80);
+		table.getColumnModel().getColumn(3).setPreferredWidth(70);
+		table.getColumnModel().getColumn(4).setPreferredWidth(10);
+		table.getColumnModel().getColumn(5).setPreferredWidth(5);
+		table.getColumnModel().getColumn(6).setPreferredWidth(5);
+		table.getColumnModel().getColumn(7).setPreferredWidth(45);
+		table.getColumnModel().getColumn(8).setPreferredWidth(5);
+		table.getColumnModel().getColumn(9).setPreferredWidth(10);
+		table.getColumnModel().getColumn(10).setPreferredWidth(20);
 		
 		lblTipoDia = new JLabel("New label");
-		lblTipoDia.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTipoDia.setBounds(20, 157, 306, 44);
+		lblTipoDia.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblTipoDia.setBounds(24, 94, 204, 33);
 		add(lblTipoDia);
-		
+
+		lblTemperatura = new JLabel("New label");
+		lblTemperatura.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblTemperatura.setBounds(24, 128, 204, 33);
+		add(lblTemperatura);
+
 		lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 900, 650);
 		try {
@@ -109,20 +125,6 @@ public class ResultadoPlaylist extends JPanel {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-
-		table.getColumnModel().getColumn(0).setPreferredWidth(10);
-		table.getColumnModel().getColumn(1).setPreferredWidth(110);
-		table.getColumnModel().getColumn(2).setPreferredWidth(50);
-		table.getColumnModel().getColumn(3).setPreferredWidth(40);
-		table.getColumnModel().getColumn(4).setPreferredWidth(10);
-		table.getColumnModel().getColumn(5).setPreferredWidth(10);
-		table.getColumnModel().getColumn(6).setPreferredWidth(10);
-		table.getColumnModel().getColumn(7).setPreferredWidth(10);
-		table.getColumnModel().getColumn(8).setPreferredWidth(10);
-		table.getColumnModel().getColumn(9).setPreferredWidth(10);
-		table.getColumnModel().getColumn(10).setPreferredWidth(10);
-		table.getColumnModel().getColumn(11).setPreferredWidth(10);
-
 	}
 	
 	private class BtnAtrasActionListener implements ActionListener {
@@ -132,6 +134,7 @@ public class ResultadoPlaylist extends JPanel {
 	}
 	
 	public void setTipoDia(double temp, String tipoDia) {
-		lblTipoDia.setText("Temperatura: "+temp+" ºC, Tipo de dia: "+tipoDia);
+		lblTipoDia.setText("Tipo de dia: "+tipoDia);
+		lblTemperatura.setText("Temperatura: "+String.format("%.2f", temp)+" ºC");
 	}
 }

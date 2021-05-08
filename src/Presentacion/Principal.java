@@ -67,6 +67,7 @@ public class Principal {
 	public void inicioSesionPulsado(Usuario usuario){
 		this.usuario = usuario;
 		login.setVisible(false);
+		resultadoPlaylist.setVisible(false);
 		seleccionarPlaylist.setVisible(true);
 	}
 	
@@ -77,11 +78,13 @@ public class Principal {
 	
 	public void seleccionarCancionesPulsado(double temperatura, String tipoDia){
 		seleccionarPlaylist.setVisible(false);
+		login.setVisible(false);
 		resultadoPlaylist.setVisible(true);
 		resultadoPlaylist.setTipoDia(temperatura, tipoDia);
 	}
 	
 	public void atrasPulsado(){
+		login.setVisible(false);
 		seleccionarPlaylist.setVisible(true);
 		resultadoPlaylist.setVisible(false);
 	}

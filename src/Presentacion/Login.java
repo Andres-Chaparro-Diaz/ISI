@@ -61,37 +61,37 @@ public class Login extends JPanel {
 		{
 			lblUsuario = new JLabel("Usuario");
 			lblUsuario.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblUsuario.setFont(new Font("Tahoma", Font.PLAIN, 25));
-			lblUsuario.setBounds(204, 331, 142, 40);
+			lblUsuario.setFont(new Font("Tahoma", Font.BOLD, 22));
+			lblUsuario.setBounds(230, 291, 142, 40);
 			add(lblUsuario);
 		}
 		{
 			lblContrasena = new JLabel("Contraseña");
 			lblContrasena.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblContrasena.setFont(new Font("Tahoma", Font.PLAIN, 25));
-			lblContrasena.setBounds(204, 393, 142, 40);
+			lblContrasena.setFont(new Font("Tahoma", Font.BOLD, 22));
+			lblContrasena.setBounds(230, 353, 142, 40);
 			add(lblContrasena);
 		}
 		{
 			txtUsuario = new JTextField();
 			txtUsuario.setBorder(new LineBorder(Color.BLACK, 1, true));
 			txtUsuario.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			txtUsuario.setBounds(386, 331, 257, 40);
+			txtUsuario.setBounds(386, 291, 257, 40);
 			add(txtUsuario);
 		}
 		{
 			txtContrasena = new JPasswordField();
 			txtContrasena.setBorder(new LineBorder(Color.BLACK, 1, true));
 			txtContrasena.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			txtContrasena.setBounds(386, 393, 257, 40);
+			txtContrasena.setBounds(386, 353, 257, 40);
 			add(txtContrasena);
 		}
 		{
 			btnIniciarSesion = new JButton("Iniciar sesión");
 			btnIniciarSesion.addActionListener(new BtnIniciarSesionActionListener());
 			btnIniciarSesion.setBorder(new LineBorder(Color.BLACK, 1, true));
-			btnIniciarSesion.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			btnIniciarSesion.setBounds(487, 444, 156, 33);
+			btnIniciarSesion.setFont(new Font("Tahoma", Font.BOLD, 13));
+			btnIniciarSesion.setBounds(487, 404, 156, 33);
 			add(btnIniciarSesion);
 		}
 		{

@@ -45,7 +45,7 @@ public class SeleccionarPlaylist extends JPanel {
 	private JButton btnSeleccionarCanciones;
 	private Principal principal;
 	JSONObject JSONTiempo;
-	JSONObject JSONPlaylist;
+	JSONArray JSONPlaylist;
 	/**
 	 * Create the panel.
 	 */
@@ -70,33 +70,33 @@ public class SeleccionarPlaylist extends JPanel {
 		
 		btnSeleccionarCanciones = new JButton("Seleccionar canciones");
 		btnSeleccionarCanciones.addActionListener(new BtnSeleccionarCancionesActionListener());
-		btnSeleccionarCanciones.setBounds(487, 444, 156, 33);
+		btnSeleccionarCanciones.setBounds(487, 404, 156, 33);
 		btnSeleccionarCanciones.setBorder(new LineBorder(Color.BLACK, 1, true));
-		btnSeleccionarCanciones.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnSeleccionarCanciones.setFont(new Font("Tahoma", Font.BOLD, 13));
 		add(btnSeleccionarCanciones);
 
-		lblTipoDia = new JLabel("Tipo de dia");
-		lblTipoDia.setBounds(151, 331, 195, 40);
-		lblTipoDia.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblTipoDia = new JLabel("Tipo de día ");
+		lblTipoDia.setBounds(181, 291, 195, 40);
+		lblTipoDia.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblTipoDia.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(lblTipoDia);
 
-		lblEnlacePlaylist = new JLabel("Enlace playlist");
-		lblEnlacePlaylist.setBounds(151, 393, 195, 40);
-		lblEnlacePlaylist.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblEnlacePlaylist = new JLabel("Enlace de la playlist ");
+		lblEnlacePlaylist.setBounds(70, 353, 306, 40);
+		lblEnlacePlaylist.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblEnlacePlaylist.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(lblEnlacePlaylist);
 
 		txtTipoDia = new JTextField();
 		txtTipoDia.setEditable(false);
-		txtTipoDia.setBounds(386, 331, 257, 40);
+		txtTipoDia.setBounds(386, 291, 257, 40);
 		txtTipoDia.setBorder(new LineBorder(Color.BLACK, 1, true));
 		txtTipoDia.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		add(txtTipoDia);
 		txtTipoDia.setColumns(10);
 
 		txtEnlacePlaylist = new JTextField();
-		txtEnlacePlaylist.setBounds(386, 393, 257, 40);
+		txtEnlacePlaylist.setBounds(386, 353, 257, 40);
 		txtEnlacePlaylist.setBorder(new LineBorder(Color.BLACK, 1, true));
 		txtEnlacePlaylist.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		add(txtEnlacePlaylist);
@@ -104,9 +104,9 @@ public class SeleccionarPlaylist extends JPanel {
 
 		btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new BtnSalirActionListener());
-		btnSalir.setBounds(40, 552, 134, 33);
+		btnSalir.setBounds(24, 506, 128, 33);
 		btnSalir.setBorder(new LineBorder(Color.BLACK, 1, true));
-		btnSalir.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnSalir.setFont(new Font("Tahoma", Font.BOLD, 13));
 		add(btnSalir);
 		
 		lblFondo = new JLabel("");
@@ -122,7 +122,7 @@ public class SeleccionarPlaylist extends JPanel {
 		}
 		add(lblFondo);
 		JSONPlaylist = GestorPlaylist.leerPlaylist(); 
-		txtTipoDia.setText(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main"));
+		txtTipoDia.setText(cambiarTipoDia(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main")));
 	}
 
 	public void setUsuario(Usuario u) throws JSONException {
@@ -137,11 +137,61 @@ public class SeleccionarPlaylist extends JPanel {
 	private class BtnSeleccionarCancionesActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if(!txtEnlacePlaylist.getText().isEmpty())
-				principal.seleccionarCancionesPulsado(JSONTiempo.getJSONObject("main").getDouble("temp")-273,JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main"));
+				principal.seleccionarCancionesPulsado(JSONTiempo.getJSONObject("main").getDouble("temp")-273,cambiarTipoDia(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main")));
 			else
 				JOptionPane.showMessageDialog(null, "Indique la playlist.");
 		}
 	}
 	
-
+	public String cambiarTipoDia(String tDia){
+		String tDiaFinal = "";
+		switch (tDia) {
+		case "Thunderstorm":
+			tDiaFinal = "Tormenta";
+			break;
+		case "Drizzle":
+			tDiaFinal = "Llovizna";
+			break;
+		case "Rain":
+			tDiaFinal = "Lluvia";
+			break;
+		case "Snow":
+			tDiaFinal = "Nieve";
+			break;
+		case "Mist":
+			tDiaFinal = "Neblina";
+			break;
+		case "Smoke":
+			tDiaFinal = "Humo";
+			break;
+		case "Haze":
+			tDiaFinal = "Calina";
+			break;
+		case "Dust":
+			tDiaFinal = "Polvo";
+			break;
+		case "Fog":
+			tDiaFinal = "Ceniza";
+			break;
+		case "Sand":
+			tDiaFinal = "Chubascos";
+			break;
+		case "Ash":
+			tDiaFinal = "Tornado";
+			break;
+		case "Squall":
+			tDiaFinal = "Despejado";
+			break;
+		case "Tornado":
+			tDiaFinal = "Niebla";
+			break;
+		case "Clear":
+			tDiaFinal = "Arena";
+			break;
+		case "Clouds":
+			tDiaFinal = "Nublado";
+			break;
+		}
+		return tDiaFinal;
+	}
 }
