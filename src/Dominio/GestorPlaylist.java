@@ -83,7 +83,7 @@ public class GestorPlaylist {
 			}
 
 			if (tiempoActual.equals("Clouds")) {
-				if (soft(nrgy, dB, val))
+				if (soft(nrgy, dB, val, dnce))
 					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(bpm),
 							String.valueOf(nrgy), String.valueOf(dnce), String.valueOf(dB), String.valueOf(val),
 							String.valueOf(dur)});
@@ -156,8 +156,8 @@ public class GestorPlaylist {
 			return false;
 	}
 
-	public static boolean soft(int energy, int db, int val) {
-		if (energy < 50 && val < 20 && db < -5)
+	public static boolean soft(int energy, int db, int val, int dnce) {
+		if (energy < 50 && val < 20 && db < -5 && dnce < 90)
 			return true;
 		else
 			return false;

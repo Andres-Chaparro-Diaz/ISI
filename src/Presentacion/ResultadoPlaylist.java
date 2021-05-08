@@ -83,7 +83,7 @@ public class ResultadoPlaylist extends JPanel {
 
 		canciones = GestorPlaylist.devolverCanciones(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main"));
 		table.setModel(new DefaultTableModel(canciones, new String[] { "ID", "Titulo", "Artista", "Genero", "Año",
-				"BPM", "Energia", "Danzabilidad", "dB", "Valor", "Duracion"}) {
+				"BPM", "Energia", "Ritmo", "dB", "Pos.", "Duracion"}) {
 			boolean[] columnEditables = new boolean[] { false, false, false, false, false, false, false, false, false,
 					false, false};
 
