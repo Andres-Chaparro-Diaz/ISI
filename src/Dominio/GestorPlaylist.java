@@ -1,6 +1,7 @@
 package Dominio;
 
 import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -8,8 +9,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
+import java.net.http.*;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.BodyPublisher;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.ArrayList;
@@ -213,8 +216,18 @@ public class GestorPlaylist {
 	}
 	
 	public static void crearPlaylist(String userId) throws IOException {
-		//"https://api.spotify.com/v1/users/claudiodiaz29100/playlists"
 		//"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
-
+		/*JSONObject jbody = new JSONObject();
+		jbody.put("name", "playlistISI");
+		jbody.put("description", "prueba");
+		jbody.put("public", true);
+		String URL = "https://api.spotify.com/v1/users/claudiodiaz29100/playlists";
+		BodyPublisher bodyPublisher = new BodyPublisher();
+        StringEntity requestBody = new StringEntity(jbody.toString());
+        request.setEntity(requestBody);
+        request.setHeader("Content-Type", "application/json");
+        request.setHeader("Authorization", "key=AIzaSyZ-1u...0GBYzPu7Udno5aA");
+		HttpClient client = HttpClient.newHttpClient();
+		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(URL)).POST().build();*/
 	}
 }
