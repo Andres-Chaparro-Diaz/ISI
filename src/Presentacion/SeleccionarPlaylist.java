@@ -13,7 +13,6 @@ import org.json.*;
 import Dominio.GestorPlaylist;
 import Dominio.Usuario;
 
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -30,6 +29,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JMenuBar;
 
 public class SeleccionarPlaylist extends JPanel {
 
@@ -41,20 +41,21 @@ public class SeleccionarPlaylist extends JPanel {
 	private JTextField txtEnlacePlaylist;
 	private JButton btnSalir;
 	private JLabel lblFondo;
-	private String APIkey = "2f3043f9f6a0d2c127fe9656e1b335c2";
 	private JButton btnSeleccionarCanciones;
 	private Principal principal;
 	JSONObject JSONTiempo;
 	JSONArray JSONPlaylist;
+
 	/**
 	 * Create the panel.
+	 * @throws IOException 
 	 */
-	public SeleccionarPlaylist(Principal principal, JSONObject JSONTiempo) {
+	public SeleccionarPlaylist(Principal principal, JSONObject JSONTiempo) throws IOException {
 		this.principal = principal;
 		this.JSONTiempo = JSONTiempo;
 		setLayout(null);
 		setBounds(0, 0, 900, 650);
-		
+
 		lblLogo = new JLabel("");
 		lblLogo.setBounds(335, 73, 200, 200);
 		try {
@@ -67,7 +68,7 @@ public class SeleccionarPlaylist extends JPanel {
 			e1.printStackTrace();
 		}
 		add(lblLogo);
-		
+
 		btnSeleccionarCanciones = new JButton("Seleccionar canciones");
 		btnSeleccionarCanciones.addActionListener(new BtnSeleccionarCancionesActionListener());
 		btnSeleccionarCanciones.setBounds(487, 404, 156, 33);
@@ -108,7 +109,7 @@ public class SeleccionarPlaylist extends JPanel {
 		btnSalir.setBorder(new LineBorder(Color.BLACK, 1, true));
 		btnSalir.setFont(new Font("Tahoma", Font.BOLD, 13));
 		add(btnSalir);
-		
+
 		lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 900, 650);
 		try {
@@ -121,29 +122,31 @@ public class SeleccionarPlaylist extends JPanel {
 			e1.printStackTrace();
 		}
 		add(lblFondo);
-		JSONPlaylist = GestorPlaylist.leerPlaylist(); 
+		JSONPlaylist = GestorPlaylist.leerPlaylist();
 		txtTipoDia.setText(cambiarTipoDia(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main")));
 	}
 
 	public void setUsuario(Usuario u) throws JSONException {
 		usuario = u;
 	}
-	
+
 	private class BtnSalirActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			principal.salirPulsado();
 		}
 	}
+
 	private class BtnSeleccionarCancionesActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			if(!txtEnlacePlaylist.getText().isEmpty())
-				principal.seleccionarCancionesPulsado(JSONTiempo.getJSONObject("main").getDouble("temp")-273,cambiarTipoDia(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main")));
+			if (!txtEnlacePlaylist.getText().isEmpty())
+				principal.seleccionarCancionesPulsado(JSONTiempo.getJSONObject("main").getDouble("temp") - 273,
+						cambiarTipoDia(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main")));
 			else
 				JOptionPane.showMessageDialog(null, "Indique la playlist.");
 		}
 	}
-	
-	public String cambiarTipoDia(String tDia){
+
+	public String cambiarTipoDia(String tDia) {
 		String tDiaFinal = "";
 		switch (tDia) {
 		case "Thunderstorm":

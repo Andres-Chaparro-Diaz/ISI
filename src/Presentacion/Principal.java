@@ -11,6 +11,7 @@ import Dominio.GestorPlaylist;
 import Dominio.Usuario;
 
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.awt.CardLayout;
 
 public class Principal {
@@ -21,6 +22,7 @@ public class Principal {
 	Login login = new Login(this);
 	SeleccionarPlaylist seleccionarPlaylist;
 	ResultadoPlaylist resultadoPlaylist;
+
 	/**
 	 * Launch the application.
 	 */
@@ -39,9 +41,11 @@ public class Principal {
 
 	/**
 	 * Create the application.
-	 * @throws JSONException 
+	 * 
+	 * @throws JSONException
+	 * @throws IOException 
 	 */
-	public Principal() throws JSONException {
+	public Principal() throws JSONException, IOException {
 		JSONTiempo = GestorPlaylist.leerAPI("Ciudad%20Real", APIkey);
 		seleccionarPlaylist = new SeleccionarPlaylist(this, JSONTiempo);
 		resultadoPlaylist = new ResultadoPlaylist(this, JSONTiempo);
@@ -55,7 +59,8 @@ public class Principal {
 		frameApp = new JFrame();
 		frameApp.setTitle("MoodApp");
 		frameApp.setResizable(false);
-		frameApp.setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/moodapp.png")));
+		frameApp.setIconImage(
+				Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/moodapp.png")));
 		frameApp.setBounds(100, 100, 900, 650);
 		frameApp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameApp.getContentPane().setLayout(new CardLayout(0, 0));
@@ -64,31 +69,31 @@ public class Principal {
 		frameApp.getContentPane().add(resultadoPlaylist);
 	}
 
-	public void inicioSesionPulsado(Usuario usuario){
+	public void inicioSesionPulsado(Usuario usuario) {
 		this.usuario = usuario;
 		login.setVisible(false);
 		resultadoPlaylist.setVisible(false);
 		seleccionarPlaylist.setVisible(true);
 	}
-	
-	public void salirPulsado(){
+
+	public void salirPulsado() {
 		login.setVisible(true);
 		seleccionarPlaylist.setVisible(false);
 	}
-	
-	public void seleccionarCancionesPulsado(double temperatura, String tipoDia){
+
+	public void seleccionarCancionesPulsado(double temperatura, String tipoDia) {
 		seleccionarPlaylist.setVisible(false);
 		login.setVisible(false);
 		resultadoPlaylist.setVisible(true);
 		resultadoPlaylist.setTipoDia(temperatura, tipoDia);
 	}
-	
-	public void atrasPulsado(){
+
+	public void atrasPulsado() {
 		login.setVisible(false);
 		seleccionarPlaylist.setVisible(true);
 		resultadoPlaylist.setVisible(false);
 	}
-	
+
 	public Usuario getUsuario() {
 		return this.usuario;
 	}

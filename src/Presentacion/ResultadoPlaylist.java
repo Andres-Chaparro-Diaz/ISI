@@ -10,7 +10,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import Dominio.GestorPlaylist;
-import Dominio.Usuario;
 
 import javax.swing.JLabel;
 
@@ -41,8 +40,9 @@ public class ResultadoPlaylist extends JPanel {
 	 * Create the panel.
 	 * 
 	 * @throws JSONException
+	 * @throws IOException 
 	 */
-	public ResultadoPlaylist(Principal principal, JSONObject JSONTiempo) throws JSONException{
+	public ResultadoPlaylist(Principal principal, JSONObject JSONTiempo) throws JSONException, IOException{
 		this.principal = principal;
 		this.JSONTiempo = JSONTiempo;
 		setBounds(0, 0, 900, 650);
@@ -76,6 +76,7 @@ public class ResultadoPlaylist extends JPanel {
 		add(btnAtras);
 
 		btnExpPlaylist = new JButton("Exportar Playlist");
+		btnExpPlaylist.addActionListener(new BtnExpPlaylistActionListener());
 		btnExpPlaylist.setBounds(736, 506, 128, 33);
 		btnExpPlaylist.setBorder(new LineBorder(Color.BLACK, 1, true));
 		btnExpPlaylist.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -83,7 +84,7 @@ public class ResultadoPlaylist extends JPanel {
 
 		canciones = GestorPlaylist.devolverCanciones(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main"));
 		table.setModel(new DefaultTableModel(canciones, new String[] { "ID", "Titulo", "Artista", "Genero", "Año",
-				"BPM", "Energia", "Ritmo", "dB", "Pos.", "Duracion"}) {
+				"BPM", "Energia", "Danzabilidad", "dB", "Valor", "Duracion"}) {
 			boolean[] columnEditables = new boolean[] { false, false, false, false, false, false, false, false, false,
 					false, false};
 
@@ -130,6 +131,11 @@ public class ResultadoPlaylist extends JPanel {
 	private class BtnAtrasActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			principal.atrasPulsado();
+		}
+	}
+
+	private class BtnExpPlaylistActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
 		}
 	}
 	

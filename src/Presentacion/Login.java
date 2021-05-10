@@ -37,6 +37,7 @@ public class Login extends JPanel {
 
 	private Usuario usuario;
 	private Principal principal;
+
 	/**
 	 * Create the panel.
 	 */
@@ -108,18 +109,20 @@ public class Login extends JPanel {
 			}
 			add(lblFondo);
 		}
-		
+
 	}
+
 	private class BtnIniciarSesionActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			if (!txtUsuario.getText().isEmpty() && txtContrasena.getPassword().length != 0) {
 				try {
-					usuario = GestorUsuario.comprobarUsuario(txtUsuario.getText().toString(), String.valueOf(txtContrasena.getPassword()));
+					usuario = GestorUsuario.comprobarUsuario(txtUsuario.getText().toString(),
+							String.valueOf(txtContrasena.getPassword()));
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				if(usuario == null) {
+				if (usuario == null) {
 					JOptionPane.showMessageDialog(null, "Datos incorrectos.");
 				} else {
 					principal.inicioSesionPulsado(usuario);
