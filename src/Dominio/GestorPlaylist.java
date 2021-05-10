@@ -13,6 +13,7 @@ import java.net.http.*;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublisher;
+import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.ArrayList;
@@ -117,7 +118,7 @@ public class GestorPlaylist {
 		return canciones;
 	}
 
-	public static JSONObject leerAPI(String ciudad, String APIkey) {
+	public static JSONObject leerAPITiempo(String ciudad, String APIkey) {
 		String city = "?q=" + ciudad;
 		String key = "&appid=" + APIkey;
 		String URL = "http://api.openweathermap.org/data/2.5/weather" + city + key;
@@ -183,7 +184,7 @@ public class GestorPlaylist {
 		FileReader fr = new FileReader(archivo);
 		BufferedReader br = new BufferedReader(fr);
 		String linea, linea2 = null;
-		String texto = "";
+		String texto = "[";
 		while ((linea = br.readLine()) != null) {
 			for (int i = 0; i < linea.length(); i++) {
 				if (linea.charAt(i) != ' ') {
@@ -215,19 +216,74 @@ public class GestorPlaylist {
 		}
 	}
 	
-	public static void crearPlaylist(String userId) throws IOException {
+	public static void crearPlaylist() throws IOException {
 		//"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
-		/*JSONObject jbody = new JSONObject();
+		JSONObject jbody = new JSONObject();
+		String token ="BQC8BamHLCeW8mBhqj-xVs_QCRQNP1NllmlPaKupj7GdOgjyFW2U7w4lepZ4vvyfw6vLTlyWjYRrTqEZz7vunIYyOp6_MXWsnHVpLMaDdXJIka96M2QTXWDqUD6ktPjOdXp41mZyD6rPX2uHBym9PYDznqGJoCQIWgJ6Z3oKFzUJM1NFPA1UnreL4DmZIMGGayNQdmOGY9Ioyuii21-aYaICOyCT";
+		String auth = "Bearer "+token;
 		jbody.put("name", "playlistISI");
 		jbody.put("description", "prueba");
 		jbody.put("public", true);
-		String URL = "https://api.spotify.com/v1/users/claudiodiaz29100/playlists";
-		BodyPublisher bodyPublisher = new BodyPublisher();
-        StringEntity requestBody = new StringEntity(jbody.toString());
-        request.setEntity(requestBody);
-        request.setHeader("Content-Type", "application/json");
-        request.setHeader("Authorization", "key=AIzaSyZ-1u...0GBYzPu7Udno5aA");
+		String URL = "https://api.spotify.com/v1/users/0cfvwsadvzuwq1dzbx3x32078/playlists";
 		HttpClient client = HttpClient.newHttpClient();
-		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(URL)).POST().build();*/
+		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(URL)).header("Content-Type", "application/json").header("Authorization", auth).header("Accept", "application/json").POST(BodyPublishers.ofString(jbody.toString())).build();
+
+		try {
+			HttpResponse<String> respuesta = client.send(request, BodyHandlers.ofString());
+			JSONTokener tokener = new JSONTokener(respuesta.body());
+			JSONObject obj =new JSONObject(tokener);
+			System.out.println(respuesta.body());
+			//aniadirCancion(obj);
+		} catch (IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void leerPlaylistSpotify(int offset) throws IOException {
+		//"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
+		//"https://api.spotify.com/v1/playlists/1jGwioCFxkoZQFlVcVkhaf/tracks?market=ES&fields=items(track(id%2Cname))&limit=100&offset=0" 
+		String token ="BQC8BamHLCeW8mBhqj-xVs_QCRQNP1NllmlPaKupj7GdOgjyFW2U7w4lepZ4vvyfw6vLTlyWjYRrTqEZz7vunIYyOp6_MXWsnHVpLMaDdXJIka96M2QTXWDqUD6ktPjOdXp41mZyD6rPX2uHBym9PYDznqGJoCQIWgJ6Z3oKFzUJM1NFPA1UnreL4DmZIMGGayNQdmOGY9Ioyuii21-aYaICOyCT";
+		String auth = "Bearer "+token;
+		String URL = "https://api.spotify.com/v1/playlists/1jGwioCFxkoZQFlVcVkhaf/tracks?market=ES&fields=items(track(id%2Cname))&limit=100&offset="+String.valueOf(offset);
+		HttpClient client = HttpClient.newHttpClient();
+		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(URL)).header("Content-Type", "application/json").header("Authorization", auth).header("Accept", "application/json").GET().build();
+		
+		try {
+			HttpResponse<String> respuesta = client.send(request, BodyHandlers.ofString());
+			//JSONTokener tokener = new JSONTokener(respuesta.body());
+			//JSONObject obj =new JSONObject(tokener);
+			System.out.println(respuesta.body());
+		} catch (IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static JSONObject concatenarJSON(JSONObject JCanciones) {
+		return JCanciones;
+	}
+	
+	
+	public static void aniadirCancion(JSONObject JPlaylist, int posicion,JSONObject JCancion) throws IOException {
+		//"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
+		JSONObject jbody = new JSONObject();
+		String token ="BQC8BamHLCeW8mBhqj-xVs_QCRQNP1NllmlPaKupj7GdOgjyFW2U7w4lepZ4vvyfw6vLTlyWjYRrTqEZz7vunIYyOp6_MXWsnHVpLMaDdXJIka96M2QTXWDqUD6ktPjOdXp41mZyD6rPX2uHBym9PYDznqGJoCQIWgJ6Z3oKFzUJM1NFPA1UnreL4DmZIMGGayNQdmOGY9Ioyuii21-aYaICOyCT";
+		String auth = "Bearer "+token;
+		String pos = "?posicion"+String.valueOf(posicion);
+		String cancion = "&uris=spotify%3track%3"+ JCancion.getString("id");
+		String URL = "https://api.spotify.com/v1/playlists/"+JPlaylist.getString("id")+"/tracks";
+		HttpClient client = HttpClient.newHttpClient();
+		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(URL)).header("Content-Type", "application/json").header("Authorization", auth).header("Accept", "application/json").POST(BodyPublishers.ofString(jbody.toString())).build();
+		
+		try {
+			HttpResponse<String> respuesta = client.send(request, BodyHandlers.ofString());
+			//JSONTokener tokener = new JSONTokener(respuesta.body());
+			//JSONObject obj =new JSONObject(tokener);
+			System.out.println(respuesta.body());
+		} catch (IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

@@ -46,7 +46,7 @@ public class Principal {
 	 * @throws IOException 
 	 */
 	public Principal() throws JSONException, IOException {
-		JSONTiempo = GestorPlaylist.leerAPI("Ciudad%20Real", APIkey);
+		JSONTiempo = GestorPlaylist.leerAPITiempo("Ciudad%20Real", APIkey);
 		seleccionarPlaylist = new SeleccionarPlaylist(this, JSONTiempo);
 		resultadoPlaylist = new ResultadoPlaylist(this, JSONTiempo);
 		initialize();
