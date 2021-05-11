@@ -48,6 +48,26 @@ public class GestorPlaylist {
 		}
 		return obj;
 	}
+	
+	public static int devolverLongitudPlaylist() throws IOException {
+		JSONArray obj;
+		try {
+			//JSONTokener tokener = new JSONTokener(
+			//		new FileReader(System.getProperty("user.dir") + "\\src\\recursos\\playlist.json"));
+			JSONTokener tokener = new JSONTokener(
+					new FileReader(System.getProperty("user.home") +"\\Desktop\\RecursosApp\\playlist2.json"));
+			obj = new JSONArray(tokener);
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "ERROR: El archivo 'playlist.json' no se ha encontrado.\nAsegúrese de que el archivo se encuentra en una carpeta llamada 'RecursosApp' en su escritorio.");
+			System.exit(0);
+			return 0;
+		} catch (JSONException e) {
+			JOptionPane.showMessageDialog(null, "ERROR: El formato 'playlist.json' no es correcto.");
+			System.exit(0);
+			return 0;
+		}
+		return obj.length();
+	}
 
 	public static Object[][] devolverCanciones(String tiempoActual) throws JSONException, IOException {
 		JSONArray jsonPlayAux = leerPlaylist();
@@ -231,18 +251,27 @@ public class GestorPlaylist {
 		try {
 			HttpResponse<String> respuesta = client.send(request, BodyHandlers.ofString());
 			JSONTokener tokener = new JSONTokener(respuesta.body());
-			JSONObject obj =new JSONObject(tokener);
-			System.out.println(respuesta.body());
-			//aniadirCancion(obj);
+			JSONObject JPlaylist =new JSONObject(tokener);
+			
+			//Esto aniadiría todas las canciones de la playlist original, hay que hacer que solo aniada las que nos interesan
+			/*JSONArray JCanciones = leerPlaylistSpotify();
+			for(int i=0;i<= JCanciones.length();i++) {
+				aniadirCancion(JPlaylist,i,JCanciones.getJSONObject(i));
+			}*/
 		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	public static JSONArray leerPlaylistSpotify() throws IOException {
+		JSONArray JCanciones = new JSONArray();
+		for(int i = 0; i<devolverLongitudPlaylist();i=i+100) {
+			JCanciones = concatenarJSON(JCanciones,leerPlaylistSpotifyAux(i));
+		}
+		return JCanciones;
+	}
 	
-	public static void leerPlaylistSpotify(int offset) throws IOException {
-		//"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
-		//"https://api.spotify.com/v1/playlists/1jGwioCFxkoZQFlVcVkhaf/tracks?market=ES&fields=items(track(id%2Cname))&limit=100&offset=0" 
+	public static JSONArray leerPlaylistSpotifyAux(int offset) throws IOException {
 		String token ="BQC8BamHLCeW8mBhqj-xVs_QCRQNP1NllmlPaKupj7GdOgjyFW2U7w4lepZ4vvyfw6vLTlyWjYRrTqEZz7vunIYyOp6_MXWsnHVpLMaDdXJIka96M2QTXWDqUD6ktPjOdXp41mZyD6rPX2uHBym9PYDznqGJoCQIWgJ6Z3oKFzUJM1NFPA1UnreL4DmZIMGGayNQdmOGY9Ioyuii21-aYaICOyCT";
 		String auth = "Bearer "+token;
 		String URL = "https://api.spotify.com/v1/playlists/1jGwioCFxkoZQFlVcVkhaf/tracks?market=ES&fields=items(track(id%2Cname))&limit=100&offset="+String.valueOf(offset);
@@ -251,39 +280,46 @@ public class GestorPlaylist {
 		
 		try {
 			HttpResponse<String> respuesta = client.send(request, BodyHandlers.ofString());
-			//JSONTokener tokener = new JSONTokener(respuesta.body());
-			//JSONObject obj =new JSONObject(tokener);
+			JSONTokener tokener = new JSONTokener(respuesta.body());
+			JSONObject obj =new JSONObject(tokener);
 			System.out.println(respuesta.body());
+			return obj.getJSONArray("items");
 		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		}
 	}
 	
-	public static JSONObject concatenarJSON(JSONObject JCanciones) {
+	public static JSONArray concatenarJSON(JSONArray JCanciones, JSONArray JCancionesNuevas) {
+		for(int i = 0;i<= JCancionesNuevas.length();i++) {
+			JCanciones.put(JCancionesNuevas.getJSONObject(i));	//Para el id de la cancion: JCanciones.getJSONObject(i).getJSONObject("track").getString("id");
+
+		}
 		return JCanciones;
 	}
 	
 	
 	public static void aniadirCancion(JSONObject JPlaylist, int posicion,JSONObject JCancion) throws IOException {
-		//"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
 		JSONObject jbody = new JSONObject();
 		String token ="BQC8BamHLCeW8mBhqj-xVs_QCRQNP1NllmlPaKupj7GdOgjyFW2U7w4lepZ4vvyfw6vLTlyWjYRrTqEZz7vunIYyOp6_MXWsnHVpLMaDdXJIka96M2QTXWDqUD6ktPjOdXp41mZyD6rPX2uHBym9PYDznqGJoCQIWgJ6Z3oKFzUJM1NFPA1UnreL4DmZIMGGayNQdmOGY9Ioyuii21-aYaICOyCT";
 		String auth = "Bearer "+token;
 		String pos = "?posicion"+String.valueOf(posicion);
-		String cancion = "&uris=spotify%3track%3"+ JCancion.getString("id");
+		String cancion = "&uris=spotify%3track%3"+ JCancion.getJSONObject("track").getString("id");
 		String URL = "https://api.spotify.com/v1/playlists/"+JPlaylist.getString("id")+"/tracks";
 		HttpClient client = HttpClient.newHttpClient();
 		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(URL)).header("Content-Type", "application/json").header("Authorization", auth).header("Accept", "application/json").POST(BodyPublishers.ofString(jbody.toString())).build();
-		
+		JSONObject obj;
 		try {
 			HttpResponse<String> respuesta = client.send(request, BodyHandlers.ofString());
 			//JSONTokener tokener = new JSONTokener(respuesta.body());
-			//JSONObject obj =new JSONObject(tokener);
+			//obj =new JSONObject(tokener);
 			System.out.println(respuesta.body());
 		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		
 	}
 }
