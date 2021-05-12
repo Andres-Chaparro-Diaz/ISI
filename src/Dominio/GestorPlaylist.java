@@ -137,7 +137,63 @@ public class GestorPlaylist {
 		}
 		return canciones;
 	}
+	
+	public static JSONArray devolverCancionesArray(String tiempoActual) throws JSONException, IOException {
+		JSONArray jsonPlayAux = leerPlaylist();
+		JSONArray JSONCanciones = new JSONArray();
+		Iterator<Object> it = jsonPlayAux.iterator();
+		while (it.hasNext()) {
+			JSONObject jsonPlay = (JSONObject) it.next();
+			int nrgy = jsonPlay.getInt("nrgy");
+			int dnce = jsonPlay.getInt("dnce");
+			int dB = jsonPlay.getInt("dB");
+			int val = jsonPlay.getInt("val");
 
+			if (tiempoActual.equals("Rain") || tiempoActual.equals("Mist") || tiempoActual.equals("Drizzle")
+					|| tiempoActual.equals("Smoke") || tiempoActual.equals("Fog") || tiempoActual.equals("Squall")
+					|| tiempoActual.equals("Haze")) {
+				if (sad(nrgy, dB))
+					JSONCanciones.put(jsonPlay);
+			}
+
+			if (tiempoActual.equals("Dust") || tiempoActual.equals("Sand") || tiempoActual.equals("Ash")) {
+				if (anger(nrgy, dB, val))
+					JSONCanciones.put(jsonPlay);
+			}
+
+			if (tiempoActual.equals("Clear")) {
+				if (happy(val, nrgy))
+					JSONCanciones.put(jsonPlay);
+			}
+
+			if (tiempoActual.equals("Thunderstorm") || tiempoActual.equals("Tornado")) {
+				if (amped(nrgy))
+					JSONCanciones.put(jsonPlay);
+			}
+
+			if (tiempoActual.equals("Clouds")) {
+				if (soft(nrgy, dB, val))
+					JSONCanciones.put(jsonPlay);
+			}
+
+			if (tiempoActual.equals("Snow")) {
+				if (danceable(dnce))
+					JSONCanciones.put(jsonPlay);
+			}
+		}
+		return JSONCanciones;
+	}
+	public static JSONArray seleccionarCanciones(JSONArray JSONCanciones, JSONArray JCanciones) {
+		JSONArray JCancionesSelect = new JSONArray();
+		for(int i =0;i < JSONCanciones.length() ;i++) {
+			for(int j=0; j < JCanciones.length();j++) {
+				if(JSONCanciones.getJSONObject(i).getString("title").equals(JCanciones.getJSONObject(j).getJSONObject("track").getString("name"))) {
+					JCancionesSelect.put(JCanciones.getJSONObject(j));
+				}
+			}
+		}
+		return JCancionesSelect;
+	}
 	public static JSONObject leerAPITiempo(String ciudad, String APIkey) {
 		String city = "?q=" + ciudad;
 		String key = "&appid=" + APIkey;
@@ -236,12 +292,12 @@ public class GestorPlaylist {
 		}
 	}
 	
-	public static void crearPlaylist() throws IOException {
+	public static void crearPlaylist(String tiempoActual) throws IOException {
 		//"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
 		JSONObject jbody = new JSONObject();
-		String token ="BQC8BamHLCeW8mBhqj-xVs_QCRQNP1NllmlPaKupj7GdOgjyFW2U7w4lepZ4vvyfw6vLTlyWjYRrTqEZz7vunIYyOp6_MXWsnHVpLMaDdXJIka96M2QTXWDqUD6ktPjOdXp41mZyD6rPX2uHBym9PYDznqGJoCQIWgJ6Z3oKFzUJM1NFPA1UnreL4DmZIMGGayNQdmOGY9Ioyuii21-aYaICOyCT";
+		String token ="BQAHiCymuf_mZ9U1hzabtAr1iq6Jm2k6ECGqhooMCz1NQljhNBY3GVrFjMTzo1I1-z4nRz0yMlQrA334vghAXz9FnBnjVDwNi-pphbb7wg3M_eynlg1ZkcpdRTO4lpVsHYSB16-D29IImSvuST2Bh1ybG56aTS3E56LsYlAmat8nB_hQxQfj8BwfdblS5XZMRGTVxTyckPyDtkRKqk6ry_qCuqTx";
 		String auth = "Bearer "+token;
-		jbody.put("name", "playlistISI");
+		jbody.put("name", "playlistISI1");
 		jbody.put("description", "prueba");
 		jbody.put("public", true);
 		String URL = "https://api.spotify.com/v1/users/0cfvwsadvzuwq1dzbx3x32078/playlists";
@@ -253,11 +309,12 @@ public class GestorPlaylist {
 			JSONTokener tokener = new JSONTokener(respuesta.body());
 			JSONObject JPlaylist =new JSONObject(tokener);
 			
-			//Esto aniadiría todas las canciones de la playlist original, hay que hacer que solo aniada las que nos interesan
-			/*JSONArray JCanciones = leerPlaylistSpotify();
-			for(int i=0;i<= JCanciones.length();i++) {
-				aniadirCancion(JPlaylist,i,JCanciones.getJSONObject(i));
-			}*/
+			JSONArray JCanciones = leerPlaylistSpotify();
+			JSONArray JSONCanciones = devolverCancionesArray(tiempoActual);
+			JSONArray JCancionesSelec= seleccionarCanciones(JSONCanciones,JCanciones);
+			for(int i=0;i< JCancionesSelec.length();i++) {
+				aniadirCancion(JPlaylist,i,JCancionesSelec.getJSONObject(i));
+			}
 		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -272,7 +329,7 @@ public class GestorPlaylist {
 	}
 	
 	public static JSONArray leerPlaylistSpotifyAux(int offset) throws IOException {
-		String token ="BQC8BamHLCeW8mBhqj-xVs_QCRQNP1NllmlPaKupj7GdOgjyFW2U7w4lepZ4vvyfw6vLTlyWjYRrTqEZz7vunIYyOp6_MXWsnHVpLMaDdXJIka96M2QTXWDqUD6ktPjOdXp41mZyD6rPX2uHBym9PYDznqGJoCQIWgJ6Z3oKFzUJM1NFPA1UnreL4DmZIMGGayNQdmOGY9Ioyuii21-aYaICOyCT";
+		String token ="BQAHiCymuf_mZ9U1hzabtAr1iq6Jm2k6ECGqhooMCz1NQljhNBY3GVrFjMTzo1I1-z4nRz0yMlQrA334vghAXz9FnBnjVDwNi-pphbb7wg3M_eynlg1ZkcpdRTO4lpVsHYSB16-D29IImSvuST2Bh1ybG56aTS3E56LsYlAmat8nB_hQxQfj8BwfdblS5XZMRGTVxTyckPyDtkRKqk6ry_qCuqTx";
 		String auth = "Bearer "+token;
 		String URL = "https://api.spotify.com/v1/playlists/1jGwioCFxkoZQFlVcVkhaf/tracks?market=ES&fields=items(track(id%2Cname))&limit=100&offset="+String.valueOf(offset);
 		HttpClient client = HttpClient.newHttpClient();
@@ -282,7 +339,7 @@ public class GestorPlaylist {
 			HttpResponse<String> respuesta = client.send(request, BodyHandlers.ofString());
 			JSONTokener tokener = new JSONTokener(respuesta.body());
 			JSONObject obj =new JSONObject(tokener);
-			System.out.println(respuesta.body());
+			System.out.println(obj.getJSONArray("items").length());
 			return obj.getJSONArray("items");
 		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -292,7 +349,7 @@ public class GestorPlaylist {
 	}
 	
 	public static JSONArray concatenarJSON(JSONArray JCanciones, JSONArray JCancionesNuevas) {
-		for(int i = 0;i<= JCancionesNuevas.length();i++) {
+		for(int i = 0;i<JCancionesNuevas.length();i++) {
 			JCanciones.put(JCancionesNuevas.getJSONObject(i));	//Para el id de la cancion: JCanciones.getJSONObject(i).getJSONObject("track").getString("id");
 
 		}
@@ -302,11 +359,12 @@ public class GestorPlaylist {
 	
 	public static void aniadirCancion(JSONObject JPlaylist, int posicion,JSONObject JCancion) throws IOException {
 		JSONObject jbody = new JSONObject();
-		String token ="BQC8BamHLCeW8mBhqj-xVs_QCRQNP1NllmlPaKupj7GdOgjyFW2U7w4lepZ4vvyfw6vLTlyWjYRrTqEZz7vunIYyOp6_MXWsnHVpLMaDdXJIka96M2QTXWDqUD6ktPjOdXp41mZyD6rPX2uHBym9PYDznqGJoCQIWgJ6Z3oKFzUJM1NFPA1UnreL4DmZIMGGayNQdmOGY9Ioyuii21-aYaICOyCT";
+		String token ="BQAHiCymuf_mZ9U1hzabtAr1iq6Jm2k6ECGqhooMCz1NQljhNBY3GVrFjMTzo1I1-z4nRz0yMlQrA334vghAXz9FnBnjVDwNi-pphbb7wg3M_eynlg1ZkcpdRTO4lpVsHYSB16-D29IImSvuST2Bh1ybG56aTS3E56LsYlAmat8nB_hQxQfj8BwfdblS5XZMRGTVxTyckPyDtkRKqk6ry_qCuqTx";
 		String auth = "Bearer "+token;
-		String pos = "?posicion"+String.valueOf(posicion);
-		String cancion = "&uris=spotify%3track%3"+ JCancion.getJSONObject("track").getString("id");
-		String URL = "https://api.spotify.com/v1/playlists/"+JPlaylist.getString("id")+"/tracks";
+		String pos = "?posicion="+String.valueOf(posicion);
+		String cancion = "&uris=spotify%3Atrack%3A"+ JCancion.getJSONObject("track").getString("id");
+		String URL = "https://api.spotify.com/v1/playlists/"+JPlaylist.getString("id")+"/tracks"+pos+cancion;
+		
 		HttpClient client = HttpClient.newHttpClient();
 		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(URL)).header("Content-Type", "application/json").header("Authorization", auth).header("Accept", "application/json").POST(BodyPublishers.ofString(jbody.toString())).build();
 		JSONObject obj;

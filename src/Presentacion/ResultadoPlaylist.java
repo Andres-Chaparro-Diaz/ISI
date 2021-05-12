@@ -137,8 +137,7 @@ public class ResultadoPlaylist extends JPanel {
 	private class BtnExpPlaylistActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			try {
-				//GestorPlaylist.crearPlaylist();
-				GestorPlaylist.leerPlaylistSpotify(0);
+				GestorPlaylist.crearPlaylist(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
