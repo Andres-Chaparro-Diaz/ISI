@@ -28,7 +28,7 @@ import org.json.JSONTokener;
 
 public class GestorPlaylist {
 
-	static String token = "BQAa1dbpqhgWIjk27nC6SEnWWJpnU7an5zFdN2qM8quKZboqPHIzZPJAbbU0hbivGAb4O0TwLVC5Btg8O8XznIB3-0GLqWVlsob9nzEiRjFUcR60Eap2xWvd56_NByStPo2dFP7O7cn-SVzmmApAgc9ty8pWZiBS9IQs1Odq6tnsnt_Lrmzr-mX0xHDZHLZYDysLMyWCJ0DimzDjvyOTWqzBMC5_";
+	static String token = "BQCxibZMiArB9VRuXjcyt4DRLFzxnTK5qh0N3j8OB5iRurm7abG_2e-WqkdPuhBS_vaX7By7PwhI8jwZmB5wgHULafjgOqnO3wxm3Tlk6Fi6N-E3OlLgOnku9rfaDpauk6XCAoStQC9XTZrgatIyTZitZFct_PbOyTAX-QcyARGda9iUjxghWagGhLb4bn2QY-dym5JJcy98xFubLxnl5li-pNwn";
 	
 	public static JSONArray leerPlaylist() throws IOException {
 		convertirPlaylist();
@@ -79,7 +79,7 @@ public class GestorPlaylist {
 		JSONArray jsonPlayAux = leerPlaylist();
 		Iterator<Object> it = jsonPlayAux.iterator();
 		ArrayList<Object[]> lista = new ArrayList<Object[]>();
-		int i = 0;
+		int i = 1;
 		while (it.hasNext()) {
 			JSONObject jsonPlay = (JSONObject) it.next();
 			String title = String.valueOf(jsonPlay.get("title"));
@@ -97,47 +97,35 @@ public class GestorPlaylist {
 					|| tiempoActual.equals("Smoke") || tiempoActual.equals("Fog") || tiempoActual.equals("Squall")
 					|| tiempoActual.equals("Haze")) {
 				if (sad(nrgy, dB))
-					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(bpm),
-							String.valueOf(nrgy), String.valueOf(dnce), String.valueOf(dB), String.valueOf(val),
-							String.valueOf(dur) });
+					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(dur)});
 			}
 
 			if (tiempoActual.equals("Dust") || tiempoActual.equals("Sand") || tiempoActual.equals("Ash")) {
 				if (anger(nrgy, dB, val))
-					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(bpm),
-							String.valueOf(nrgy), String.valueOf(dnce), String.valueOf(dB), String.valueOf(val),
-							String.valueOf(dur) });
+					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(dur)});
 			}
 
 			if (tiempoActual.equals("Clear")) {
 				if (happy(val, nrgy))
-					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(bpm),
-							String.valueOf(nrgy), String.valueOf(dnce), String.valueOf(dB), String.valueOf(val),
-							String.valueOf(dur) });
+					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(dur)});
 			}
 
 			if (tiempoActual.equals("Thunderstorm") || tiempoActual.equals("Tornado")) {
 				if (amped(nrgy))
-					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(bpm),
-							String.valueOf(nrgy), String.valueOf(dnce), String.valueOf(dB), String.valueOf(val),
-							String.valueOf(dur) });
+					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(dur)});
 			}
 
 			if (tiempoActual.equals("Clouds")) {
 				if (soft(nrgy, dB, val))
-					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(bpm),
-							String.valueOf(nrgy), String.valueOf(dnce), String.valueOf(dB), String.valueOf(val),
-							String.valueOf(dur) });
+					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(dur)});
 			}
 
 			if (tiempoActual.equals("Snow")) {
 				if (danceable(dnce))
-					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(bpm),
-							String.valueOf(nrgy), String.valueOf(dnce), String.valueOf(dB), String.valueOf(val),
-							String.valueOf(dur) });
+					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(dur)});
 			}
 		}
-		Object[][] canciones = new Object[lista.size()][11];
+		Object[][] canciones = new Object[lista.size()][6];
 		for (int j = 0; j < lista.size(); j++) {
 			canciones[j] = lista.get(j);
 		}

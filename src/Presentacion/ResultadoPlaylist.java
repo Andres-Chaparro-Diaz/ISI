@@ -89,25 +89,19 @@ public class ResultadoPlaylist extends JPanel {
 
 		canciones = GestorPlaylist.devolverCanciones(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main"));
 		table.setModel(new DefaultTableModel(canciones, new String[] { "ID", "Titulo", "Artista", "Genero", "Año",
-				"BPM", "Energia", "Danzabilidad", "dB", "Valor", "Duracion"}) {
-			boolean[] columnEditables = new boolean[] { false, false, false, false, false, false, false, false, false,
-					false, false};
+				"Duracion (segs)"}) {
+			boolean[] columnEditables = new boolean[] { false, false, false, false, false, false};
 
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
 		});
-		table.getColumnModel().getColumn(0).setPreferredWidth(5);
-		table.getColumnModel().getColumn(1).setPreferredWidth(120);
+		table.getColumnModel().getColumn(0).setPreferredWidth(10);
+		table.getColumnModel().getColumn(1).setPreferredWidth(200);
 		table.getColumnModel().getColumn(2).setPreferredWidth(80);
 		table.getColumnModel().getColumn(3).setPreferredWidth(70);
 		table.getColumnModel().getColumn(4).setPreferredWidth(10);
-		table.getColumnModel().getColumn(5).setPreferredWidth(5);
-		table.getColumnModel().getColumn(6).setPreferredWidth(5);
-		table.getColumnModel().getColumn(7).setPreferredWidth(45);
-		table.getColumnModel().getColumn(8).setPreferredWidth(5);
-		table.getColumnModel().getColumn(9).setPreferredWidth(10);
-		table.getColumnModel().getColumn(10).setPreferredWidth(20);
+		table.getColumnModel().getColumn(5).setPreferredWidth(50);
 		
 		lblTipoDia = new JLabel("New label");
 		lblTipoDia.setFont(new Font("Tahoma", Font.PLAIN, 16));
