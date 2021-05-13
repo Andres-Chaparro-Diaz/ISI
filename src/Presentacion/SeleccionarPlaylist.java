@@ -36,9 +36,9 @@ public class SeleccionarPlaylist extends JPanel {
 	private Usuario usuario;
 	private JLabel lblLogo;
 	private JLabel lblTipoDia;
-	private JLabel lblEnlacePlaylist;
+	private JLabel lblCiudad;
 	private JTextField txtTipoDia;
-	private JTextField txtEnlacePlaylist;
+	private JTextField txtCiudad;
 	private JButton btnSalir;
 	private JLabel lblFondo;
 	private JButton btnSeleccionarCanciones;
@@ -82,11 +82,11 @@ public class SeleccionarPlaylist extends JPanel {
 		lblTipoDia.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(lblTipoDia);
 
-		lblEnlacePlaylist = new JLabel("Enlace de la playlist ");
-		lblEnlacePlaylist.setBounds(70, 353, 306, 40);
-		lblEnlacePlaylist.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblEnlacePlaylist.setHorizontalAlignment(SwingConstants.RIGHT);
-		add(lblEnlacePlaylist);
+		lblCiudad = new JLabel("Ciudad");
+		lblCiudad.setBounds(70, 353, 306, 40);
+		lblCiudad.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblCiudad.setHorizontalAlignment(SwingConstants.RIGHT);
+		add(lblCiudad);
 
 		txtTipoDia = new JTextField();
 		txtTipoDia.setEditable(false);
@@ -96,12 +96,14 @@ public class SeleccionarPlaylist extends JPanel {
 		add(txtTipoDia);
 		txtTipoDia.setColumns(10);
 
-		txtEnlacePlaylist = new JTextField();
-		txtEnlacePlaylist.setBounds(386, 353, 257, 40);
-		txtEnlacePlaylist.setBorder(new LineBorder(Color.BLACK, 1, true));
-		txtEnlacePlaylist.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		add(txtEnlacePlaylist);
-		txtEnlacePlaylist.setColumns(10);
+		txtCiudad = new JTextField();
+		txtCiudad.setEditable(false);
+		txtCiudad.setText("Ciudad Real");
+		txtCiudad.setBounds(386, 353, 257, 40);
+		txtCiudad.setBorder(new LineBorder(Color.BLACK, 1, true));
+		txtCiudad.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		add(txtCiudad);
+		txtCiudad.setColumns(10);
 
 		btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new BtnSalirActionListener());
@@ -138,7 +140,7 @@ public class SeleccionarPlaylist extends JPanel {
 
 	private class BtnSeleccionarCancionesActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			if (!txtEnlacePlaylist.getText().isEmpty())
+			if (!txtCiudad.getText().isEmpty())
 				principal.seleccionarCancionesPulsado(JSONTiempo.getJSONObject("main").getDouble("temp") - 273,
 						cambiarTipoDia(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main")));
 			else

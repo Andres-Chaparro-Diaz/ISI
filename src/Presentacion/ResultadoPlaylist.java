@@ -3,6 +3,7 @@ package Presentacion;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -12,10 +13,14 @@ import org.json.JSONObject;
 import Dominio.GestorPlaylist;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -136,11 +141,31 @@ public class ResultadoPlaylist extends JPanel {
 
 	private class BtnExpPlaylistActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			try {
-				GestorPlaylist.crearPlaylist(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			int confirmado = JOptionPane.showConfirmDialog(null, "¿Seguro que quiere crear esta playlist?\nEsto tardará unos segundos.", "EXPORTAR PLAYLIST", JOptionPane.YES_NO_OPTION);
+			if (JOptionPane.OK_OPTION == confirmado) {
+				try {
+					String enlacePlaylist = GestorPlaylist
+							.crearPlaylist(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main"));
+					int seleccion = JOptionPane.showOptionDialog(
+							   null,
+							   "El enlace de la playlist es: spotify:playlist:"+enlacePlaylist, 
+							   "ENLACE PLAYLIST",
+							   JOptionPane.YES_NO_CANCEL_OPTION,
+							   JOptionPane.QUESTION_MESSAGE,
+							   null,    // null para icono por defecto.
+							   new Object[] { "Copiar enlace", "Cancelar"},   // null para YES, NO y CANCEL
+							   "Copiar enlace");
+					if(seleccion==0) {
+					String myString = "spotify:playlist:"+enlacePlaylist;
+					StringSelection stringSelection = new StringSelection (myString);
+					Clipboard clpbrd = Toolkit.getDefaultToolkit ().getSystemClipboard ();
+					clpbrd.setContents (stringSelection, null);
+					JOptionPane.showMessageDialog(null, "El enlace de la playlist se ha copiado en el portapapeles.", "ENLACE PLAYLIST", JOptionPane.INFORMATION_MESSAGE);
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}

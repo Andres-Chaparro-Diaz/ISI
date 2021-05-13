@@ -6,6 +6,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -22,6 +25,8 @@ import Dominio.GestorUsuario;
 import Dominio.Usuario;
 
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -123,12 +128,12 @@ public class Login extends JPanel {
 					e1.printStackTrace();
 				}
 				if (usuario == null) {
-					JOptionPane.showMessageDialog(null, "Datos incorrectos.");
+					JOptionPane.showMessageDialog(null, "Datos incorrectos.", "ERROR AL INICIAR SESIÓN", JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					principal.inicioSesionPulsado(usuario);
 				}
 			} else {
-				JOptionPane.showMessageDialog(null, "Debe rellenar los campos anteriores.");
+				JOptionPane.showMessageDialog(null, "Debe rellenar los campos anteriores.", "ERROR AL INICIAR SESIÓN", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 	}

@@ -33,7 +33,7 @@ public class GestorUsuario {
 		JSONObject fichero = leerUsuarios();
 		JSONObject usuarios = fichero.getJSONObject("usuarios");
 		for(int i=0; i<fichero.getInt("numUsuarios"); i++) {
-			if(usuarios.getJSONObject(String.valueOf(i)).getString("nombre").equals(usuarioCompr)) {
+			if(usuarios.getJSONObject(String.valueOf(i)).getString("nombre").toLowerCase().equals(usuarioCompr.toLowerCase())) {
 				if(usuarios.getJSONObject(String.valueOf(i)).getString("contrasena").equals(contrasenaCompr)) {
 					JSONObject aux = usuarios.getJSONObject(String.valueOf(i));
 					usuario.setContrasena(aux.getString("contrasena"));
