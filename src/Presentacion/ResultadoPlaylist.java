@@ -103,12 +103,12 @@ public class ResultadoPlaylist extends JPanel {
 		table.getColumnModel().getColumn(4).setPreferredWidth(10);
 		table.getColumnModel().getColumn(5).setPreferredWidth(50);
 		
-		lblTipoDia = new JLabel("New label");
+		lblTipoDia = new JLabel("");
 		lblTipoDia.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblTipoDia.setBounds(24, 94, 204, 33);
 		add(lblTipoDia);
 
-		lblTemperatura = new JLabel("New label");
+		lblTemperatura = new JLabel("");
 		lblTemperatura.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblTemperatura.setBounds(24, 128, 204, 33);
 		add(lblTemperatura);
