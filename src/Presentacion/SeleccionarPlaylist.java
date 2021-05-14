@@ -170,28 +170,28 @@ public class SeleccionarPlaylist extends JPanel {
 			tDiaFinal = "Humo";
 			break;
 		case "Haze":
-			tDiaFinal = "Calina";
+			tDiaFinal = "Bruma";
 			break;
 		case "Dust":
 			tDiaFinal = "Polvo";
 			break;
 		case "Fog":
-			tDiaFinal = "Ceniza";
+			tDiaFinal = "Niebla";
 			break;
 		case "Sand":
 			tDiaFinal = "Chubascos";
 			break;
 		case "Ash":
-			tDiaFinal = "Tornado";
+			tDiaFinal = "Ceniza";
 			break;
 		case "Squall":
-			tDiaFinal = "Despejado";
+			tDiaFinal = "Borrasca";
 			break;
 		case "Tornado":
-			tDiaFinal = "Niebla";
+			tDiaFinal = "Tornado";
 			break;
 		case "Clear":
-			tDiaFinal = "Arena";
+			tDiaFinal = "Despejado";
 			break;
 		case "Clouds":
 			tDiaFinal = "Nublado";
