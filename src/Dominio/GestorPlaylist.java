@@ -118,8 +118,6 @@ public class GestorPlaylist {
 				if (soft(nrgy, dB, val))
 					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(dur)});
 			}
-
-			
 		}
 		Object[][] canciones = new Object[lista.size()][6];
 		for (int j = 0; j < lista.size(); j++) {
