@@ -410,6 +410,7 @@ public class GestorPlaylist {
 		jbody.put("grant_type", "authorization_code");
 		jbody.put("code",code);
 		jbody.put("redirect_uri", "");
+		
 		HttpClient client = HttpClient.newHttpClient();
 		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(URL)).header("Authorization", auth)
 				.POST(BodyPublishers.ofString(jbody.toString())).build();
