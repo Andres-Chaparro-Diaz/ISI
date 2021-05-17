@@ -67,10 +67,12 @@ public class Principal {
 		frameApp.getContentPane().add(login);
 		frameApp.getContentPane().add(seleccionarPlaylist);
 		frameApp.getContentPane().add(resultadoPlaylist);
+
 	}
 
 	public void inicioSesionPulsado(Usuario usuario) {
 		this.usuario = usuario;
+		GestorPlaylist.getToken();
 		login.setVisible(false);
 		resultadoPlaylist.setVisible(false);
 		seleccionarPlaylist.setVisible(true);

@@ -138,6 +138,7 @@ public class ResultadoPlaylist extends JPanel {
 			int confirmado = JOptionPane.showConfirmDialog(null, "¿Seguro que quiere crear esta playlist?\nEsto tardará unos segundos.", "EXPORTAR PLAYLIST", JOptionPane.YES_NO_OPTION);
 			if (JOptionPane.OK_OPTION == confirmado) {
 				try {
+					GestorPlaylist.getToken();
 					String enlacePlaylist = GestorPlaylist
 							.crearPlaylist(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main"));
 					int seleccion = JOptionPane.showOptionDialog(
@@ -149,12 +150,14 @@ public class ResultadoPlaylist extends JPanel {
 							   null,    // null para icono por defecto.
 							   new Object[] { "Copiar enlace", "Cancelar"},   // null para YES, NO y CANCEL
 							   "Copiar enlace");
-					if(seleccion==0) {
-					String myString = "spotify:playlist:"+enlacePlaylist;
-					StringSelection stringSelection = new StringSelection (myString);
-					Clipboard clpbrd = Toolkit.getDefaultToolkit ().getSystemClipboard ();
-					clpbrd.setContents (stringSelection, null);
-					JOptionPane.showMessageDialog(null, "El enlace de la playlist se ha copiado en el portapapeles.", "ENLACE PLAYLIST", JOptionPane.INFORMATION_MESSAGE);
+					if (seleccion == 0) {
+						String myString = "spotify:playlist:" + enlacePlaylist;
+						StringSelection stringSelection = new StringSelection(myString);
+						Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+						clpbrd.setContents(stringSelection, null);
+						JOptionPane.showMessageDialog(null,
+								"El enlace de la playlist se ha copiado en el portapapeles.", "ENLACE PLAYLIST",
+								JOptionPane.INFORMATION_MESSAGE);
 					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
