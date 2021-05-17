@@ -2,6 +2,7 @@ package Dominio;
 
 import java.io.BufferedReader;
 
+import java.util.Base64;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -383,13 +384,14 @@ public class GestorPlaylist {
 	}
 	
 	public static void getToken() {
-		String id = "?client_id=client_id=857b61e0c4a74df9983271c4dd8caa4a";
-		String response= "&response_type=code";
-		String redirect = "&redirect_uri=https%3A%2F%2Fexample.com%2Fcallback";
-		String scope = "&scope=playlist-read-private%20playlist-modify-public%20playlist-modify-private";
-		String URL = "https://accounts.spotify.com/authorize"+id+response+redirect+scope;
+		String URL = "https://accounts.spotify.com/api/token";
+		String encodeBytes = Base64.getEncoder().encodeToString(("857b61e0c4a74df9983271c4dd8caa4a" + ":" + "c77b1f8a1a0c4bf4a6d339ae7ad3f3f1").getBytes());
+		String auth = "Basic " + encodeBytes;
+		JSONObject jbody = new JSONObject();
+		jbody.put("grant_type", "client_credentials");
 		HttpClient client = HttpClient.newHttpClient();
-		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(URL)).GET().build();
+		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(URL)).header("Authorization", auth)
+				.POST(BodyPublishers.ofString(jbody.toString())).build();
 		try {
 			HttpResponse<String> respuesta = client.send(request, BodyHandlers.ofString());
 			//JSONTokener tokener = new JSONTokener(respuesta.body());
@@ -403,25 +405,5 @@ public class GestorPlaylist {
 
 		}
 	}
-	public static void refreshToken(String code) {
-		String URL = "https://accounts.spotify.com/api/token";
-		String auth = "Basic " +"ODU3YjYxZTBjNGE3NGRmOTk4MzI3MWM0ZGQ4Y2FhNGE6Yzc3YjFmOGExYTBjNGJmNGE2ZDMzOWFlN2FkM2YzZjE=";
-		JSONObject jbody = new JSONObject();
-		jbody.put("grant_type", "authorization_code");
-		jbody.put("code",code);
-		jbody.put("redirect_uri", "");
-		
-		HttpClient client = HttpClient.newHttpClient();
-		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(URL)).header("Authorization", auth)
-				.POST(BodyPublishers.ofString(jbody.toString())).build();
-		try {
-			HttpResponse<String> respuesta = client.send(request, BodyHandlers.ofString());
-			// JSONTokener tokener = new JSONTokener(respuesta.body());
-			// obj =new JSONObject(tokener);
-			System.out.println(respuesta.body());
-		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+
 }

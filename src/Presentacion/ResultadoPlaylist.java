@@ -138,7 +138,6 @@ public class ResultadoPlaylist extends JPanel {
 			int confirmado = JOptionPane.showConfirmDialog(null, "¿Seguro que quiere crear esta playlist?\nEsto tardará unos segundos.", "EXPORTAR PLAYLIST", JOptionPane.YES_NO_OPTION);
 			if (JOptionPane.OK_OPTION == confirmado) {
 				try {
-					GestorPlaylist.getToken();
 					String enlacePlaylist = GestorPlaylist
 							.crearPlaylist(JSONTiempo.getJSONArray("weather").getJSONObject(0).getString("main"));
 					int seleccion = JOptionPane.showOptionDialog(
