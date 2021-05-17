@@ -34,9 +34,6 @@ public class GestorPlaylist {
 		convertirPlaylist();
 		JSONArray obj;
 		try {
-			// JSONTokener tokener = new JSONTokener(
-			// new FileReader(System.getProperty("user.dir") +
-			// "\\src\\recursos\\playlist.json"));
 			JSONTokener tokener = new JSONTokener(
 					new FileReader(System.getProperty("user.home") + "\\Desktop\\RecursosApp\\playlist2.json"));
 			obj = new JSONArray(tokener);
@@ -56,9 +53,6 @@ public class GestorPlaylist {
 	public static int devolverLongitudPlaylist() throws IOException {
 		JSONArray obj;
 		try {
-			// JSONTokener tokener = new JSONTokener(
-			// new FileReader(System.getProperty("user.dir") +
-			// "\\src\\recursos\\playlist.json"));
 			JSONTokener tokener = new JSONTokener(
 					new FileReader(System.getProperty("user.home") + "\\Desktop\\RecursosApp\\playlist2.json"));
 			obj = new JSONArray(tokener);
@@ -96,7 +90,22 @@ public class GestorPlaylist {
 			if (tiempoActual.equals("Rain") || tiempoActual.equals("Mist") || tiempoActual.equals("Drizzle")
 					|| tiempoActual.equals("Smoke") || tiempoActual.equals("Fog") || tiempoActual.equals("Squall")
 					|| tiempoActual.equals("Haze")) {
-				if (sad(nrgy, dB))
+				if (sad(val, nrgy))
+					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(dur)});
+			}
+			
+			if (tiempoActual.equals("Clear")) {
+				if (happy(val, nrgy))
+					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(dur)});
+			}
+			
+			if (tiempoActual.equals("Snow")) {
+				if (danceable(dnce))
+					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(dur)});
+			}
+			
+			if (tiempoActual.equals("Thunderstorm") || tiempoActual.equals("Tornado")) {
+				if (amped(nrgy))
 					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(dur)});
 			}
 
@@ -105,23 +114,8 @@ public class GestorPlaylist {
 					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(dur)});
 			}
 
-			if (tiempoActual.equals("Clear")) {
-				if (happy(val, nrgy))
-					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(dur)});
-			}
-
-			if (tiempoActual.equals("Thunderstorm") || tiempoActual.equals("Tornado")) {
-				if (amped(nrgy))
-					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(dur)});
-			}
-
 			if (tiempoActual.equals("Clouds")) {
 				if (soft(nrgy, dB, val))
-					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(dur)});
-			}
-
-			if (tiempoActual.equals("Snow")) {
-				if (danceable(dnce))
 					lista.add(new Object[] { i++, title, artist, topGenre, String.valueOf(year), String.valueOf(dur)});
 			}
 		}
@@ -146,7 +140,22 @@ public class GestorPlaylist {
 			if (tiempoActual.equals("Rain") || tiempoActual.equals("Mist") || tiempoActual.equals("Drizzle")
 					|| tiempoActual.equals("Smoke") || tiempoActual.equals("Fog") || tiempoActual.equals("Squall")
 					|| tiempoActual.equals("Haze")) {
-				if (sad(nrgy, dB))
+				if (sad(val, nrgy))
+					JSONCanciones.put(jsonPlay);
+			}
+			
+			if (tiempoActual.equals("Clear")) {
+				if (happy(val, nrgy))
+					JSONCanciones.put(jsonPlay);
+			}
+			
+			if (tiempoActual.equals("Snow")) {
+				if (danceable(dnce))
+					JSONCanciones.put(jsonPlay);
+			}
+			
+			if (tiempoActual.equals("Thunderstorm") || tiempoActual.equals("Tornado")) {
+				if (amped(nrgy))
 					JSONCanciones.put(jsonPlay);
 			}
 
@@ -155,25 +164,11 @@ public class GestorPlaylist {
 					JSONCanciones.put(jsonPlay);
 			}
 
-			if (tiempoActual.equals("Clear")) {
-				if (happy(val, nrgy))
-					JSONCanciones.put(jsonPlay);
-			}
-
-			if (tiempoActual.equals("Thunderstorm") || tiempoActual.equals("Tornado")) {
-				if (amped(nrgy))
-					JSONCanciones.put(jsonPlay);
-			}
-
 			if (tiempoActual.equals("Clouds")) {
 				if (soft(nrgy, dB, val))
 					JSONCanciones.put(jsonPlay);
 			}
 
-			if (tiempoActual.equals("Snow")) {
-				if (danceable(dnce))
-					JSONCanciones.put(jsonPlay);
-			}
 		}
 		return JSONCanciones;
 	}
@@ -242,14 +237,14 @@ public class GestorPlaylist {
 	}
 
 	public static boolean anger(int energy, int db, int val) {
-		if (energy > 80 && db >= -5 && val < 20)
+		if (energy > 80 && db >= -5 && val < 50)
 			return true;
 		else
 			return false;
 	}
 
 	public static boolean soft(int energy, int db, int val) {
-		if (energy < 50 && val < 20 && db < -5)
+		if (energy < 50 && db < -5 && val < 20)
 			return true;
 		else
 			return false;
