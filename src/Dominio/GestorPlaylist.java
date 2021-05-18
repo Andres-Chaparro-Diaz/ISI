@@ -392,12 +392,11 @@ public class GestorPlaylist {
 		HttpClient client = HttpClient.newHttpClient();
 		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(URL)).header("Authorization", auth)
 				.POST(BodyPublishers.ofString(jbody.toString())).build();
+		
 		try {
 			HttpResponse<String> respuesta = client.send(request, BodyHandlers.ofString());
 			//JSONTokener tokener = new JSONTokener(respuesta.body());
-			//JSONObject obj = new JSONObject(tokener);
-			System.out.println(respuesta.body());
-			
+			//JSONObject obj = new JSONObject(tokener);			
 		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
