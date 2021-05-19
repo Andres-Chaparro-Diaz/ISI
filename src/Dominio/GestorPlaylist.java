@@ -29,7 +29,7 @@ import org.json.JSONTokener;
 
 public class GestorPlaylist {
 
-	static String token = "BQBg3Yqk2vrZAX7imf7tcg3ZZN35Gz3QCSmdvEQCtthaDSxqQWY6DpcmlwVhHkbIqdFDTsmLqdjhhqdi9OQFR8mSd0hJPnJZbOXIP-mh4nm3ST298XW7nU4PAmMsA0k240t1Rvz_cDHSvBj5OcNoLLjFSfOkj7rzJC5M47KyNQtJ4dpsD8Xw-LE2oQOBkSbT7UVtHtolc47sKCuvXQx3lYUkx8vD";
+	static String token = "BQA7KyyAFsfr54rdN-f_aleQ5gwl8BPZ_ObsPn9Fag787rZtj9ROdLsAqs4pWZOogdE25puqULFuh6HukJpHgJga2g7vrZ1z8V_KHeEYwowEZUGnSpapUzwSWcE0jdYgKYTUsQUbKMUHIFqV1uqsHJByYtA0eMJNs51Kkw1B7tY-zF2FeuZNUzpZ98AxLVcLtImTosm4q0KiZxsfqzawnQ83EdC9";
 	
 	public static JSONArray leerPlaylist() throws IOException {
 		convertirPlaylist();

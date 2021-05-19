@@ -59,8 +59,7 @@ public class Principal {
 		frameApp = new JFrame();
 		frameApp.setTitle("MoodApp");
 		frameApp.setResizable(false);
-		frameApp.setIconImage(
-				Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/moodapp.png")));
+		//frameApp.setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/moodapp.png")));
 		frameApp.setBounds(300, 100, 900, 650);
 		frameApp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameApp.getContentPane().setLayout(new CardLayout(0, 0));
